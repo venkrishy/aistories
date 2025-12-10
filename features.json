@@ -1,0 +1,374 @@
+{
+  "projectName": "Visual Storytelling UI",
+  "currentPhase": 1,
+  "phases": {
+    "1": "Beautiful UI (Static MVP)",
+    "2": "Upload & Create",
+    "3": "AWS Backend & Sharing"
+  },
+  "features": [
+    {
+      "id": "F1.1",
+      "phase": 1,
+      "name": "Landing page with animated text",
+      "description": "Create landing page with typewriter animation cycling through words: Amazing → Beautiful → Magical Stories",
+      "status": "pending",
+      "priority": "high",
+      "acceptanceCriteria": [
+        "Typewriter effect works smoothly",
+        "Words cycle automatically",
+        "CTA button navigates to cover page",
+        "Dark gradient background",
+        "Fade-in animations on load"
+      ]
+    },
+    {
+      "id": "F1.2",
+      "phase": 1,
+      "name": "Story viewer with two-page spread",
+      "description": "Implement book-style viewer with image on left, text on right",
+      "status": "pending",
+      "priority": "critical",
+      "acceptanceCriteria": [
+        "Two-page grid layout",
+        "Image on LEFT side",
+        "Text on RIGHT side",
+        "Fixed dimensions (no resizing)",
+        "Smooth rendering"
+      ]
+    },
+    {
+      "id": "F1.3",
+      "phase": 1,
+      "name": "3D page flip animation",
+      "description": "Smooth 3D page turning animation using Framer Motion",
+      "status": "pending",
+      "priority": "high",
+      "acceptanceCriteria": [
+        "Smooth 60fps animation",
+        "3D rotateY effect",
+        "0.6s duration",
+        "Works for both pages simultaneously",
+        "No jank or stuttering"
+      ]
+    },
+    {
+      "id": "F1.4",
+      "phase": 1,
+      "name": "Fixed-dimension book container",
+      "description": "CRITICAL: Prevent book container from resizing when images load - buttons must stay in same position",
+      "status": "pending",
+      "priority": "critical",
+      "acceptanceCriteria": [
+        "Container has fixed width and height",
+        "Images use object-cover to fit",
+        "Container never resizes",
+        "Navigation buttons stay in exact same position",
+        "Works with all image aspect ratios"
+      ]
+    },
+    {
+      "id": "F1.5",
+      "phase": 1,
+      "name": "Navigation controls (prev/next)",
+      "description": "Previous and Next buttons for page navigation",
+      "status": "pending",
+      "priority": "high",
+      "acceptanceCriteria": [
+        "Previous button goes to prior page",
+        "Next button goes to next page",
+        "Buttons disabled at boundaries",
+        "Hover effects work",
+        "Absolutely positioned at bottom"
+      ]
+    },
+    {
+      "id": "F1.6",
+      "phase": 1,
+      "name": "Page indicator dots",
+      "description": "Visual dots showing current page position",
+      "status": "pending",
+      "priority": "medium",
+      "acceptanceCriteria": [
+        "One dot per page",
+        "Current page highlighted",
+        "Smooth transitions",
+        "Centered below book"
+      ]
+    },
+    {
+      "id": "F1.7",
+      "phase": 1,
+      "name": "Cover page view",
+      "description": "Special cover page layout with title, author, and Start Reading button",
+      "status": "pending",
+      "priority": "high",
+      "acceptanceCriteria": [
+        "Single page layout (not two-page spread)",
+        "Cover image centered",
+        "Title and author displayed",
+        "Start Reading button works",
+        "Transitions to first page"
+      ]
+    },
+    {
+      "id": "F1.8",
+      "phase": 1,
+      "name": "Text-to-speech (Web Speech API)",
+      "description": "Voice narration of story text using browser's built-in TTS",
+      "status": "pending",
+      "priority": "medium",
+      "acceptanceCriteria": [
+        "Listen button in viewer",
+        "Reads current page text",
+        "Voice pitch options (higher/lower)",
+        "Start from beginning option",
+        "Play/pause controls",
+        "Works in Chrome, Safari, Edge"
+      ]
+    },
+    {
+      "id": "F1.9",
+      "phase": 1,
+      "name": "Share button (copy URL)",
+      "description": "Button to copy current URL to clipboard",
+      "status": "pending",
+      "priority": "medium",
+      "acceptanceCriteria": [
+        "Share button visible",
+        "Copies URL to clipboard",
+        "Toast notification appears",
+        "Says 'Link copied!'",
+        "Works on all browsers"
+      ]
+    },
+    {
+      "id": "F1.10",
+      "phase": 1,
+      "name": "Load story from public/stories/",
+      "description": "Story loader utility to fetch story data from public directory",
+      "status": "pending",
+      "priority": "critical",
+      "acceptanceCriteria": [
+        "Loads meta.json",
+        "Loads all text files (text_1.txt through text_10.txt)",
+        "Loads cover and page images",
+        "Returns formatted Story object",
+        "Handles errors gracefully"
+      ]
+    },
+    {
+      "id": "F1.11",
+      "phase": 1,
+      "name": "Responsive design (mobile-friendly)",
+      "description": "Adapt layout for different screen sizes",
+      "status": "pending",
+      "priority": "high",
+      "acceptanceCriteria": [
+        "Desktop: Two-page spread",
+        "Tablet: Single page view",
+        "Mobile: Single page, vertical layout",
+        "Touch gestures for navigation",
+        "Works on iOS Safari and Chrome Android"
+      ]
+    },
+    {
+      "id": "F2.1",
+      "phase": 2,
+      "name": "Upload flow UI",
+      "description": "Interface for uploading images and text to create stories",
+      "status": "not_started",
+      "priority": "high",
+      "acceptanceCriteria": []
+    },
+    {
+      "id": "F2.2",
+      "phase": 2,
+      "name": "Multiple image upload (drag & drop)",
+      "description": "Drag and drop interface for uploading multiple images at once",
+      "status": "not_started",
+      "priority": "high",
+      "acceptanceCriteria": []
+    },
+    {
+      "id": "F2.3",
+      "phase": 2,
+      "name": "Text input (plain text file upload)",
+      "description": "Upload plain text files for story content",
+      "status": "not_started",
+      "priority": "high",
+      "acceptanceCriteria": []
+    },
+    {
+      "id": "F2.4",
+      "phase": 2,
+      "name": "Text input (manual page-by-page entry)",
+      "description": "Manual text entry interface for each page",
+      "status": "not_started",
+      "priority": "medium",
+      "acceptanceCriteria": []
+    },
+    {
+      "id": "F2.5",
+      "phase": 2,
+      "name": "PDF text extraction",
+      "description": "Extract text from uploaded PDF files",
+      "status": "not_started",
+      "priority": "medium",
+      "acceptanceCriteria": []
+    },
+    {
+      "id": "F2.6",
+      "phase": 2,
+      "name": "Auto-generate cover page",
+      "description": "Automatically create cover image from first page or user selection",
+      "status": "not_started",
+      "priority": "medium",
+      "acceptanceCriteria": []
+    },
+    {
+      "id": "F2.7",
+      "phase": 2,
+      "name": "Story preview before save",
+      "description": "Preview full story before finalizing",
+      "status": "not_started",
+      "priority": "medium",
+      "acceptanceCriteria": []
+    },
+    {
+      "id": "F2.8",
+      "phase": 2,
+      "name": "Browser localStorage for stories",
+      "description": "Save stories locally in browser storage",
+      "status": "not_started",
+      "priority": "high",
+      "acceptanceCriteria": []
+    },
+    {
+      "id": "F2.9",
+      "phase": 2,
+      "name": "Story gallery (browse created stories)",
+      "description": "Gallery view of all user-created stories",
+      "status": "not_started",
+      "priority": "medium",
+      "acceptanceCriteria": []
+    },
+    {
+      "id": "F2.10",
+      "phase": 2,
+      "name": "Edit existing stories",
+      "description": "Edit previously created stories",
+      "status": "not_started",
+      "priority": "medium",
+      "acceptanceCriteria": []
+    },
+    {
+      "id": "F2.11",
+      "phase": 2,
+      "name": "Delete stories",
+      "description": "Remove stories from local storage",
+      "status": "not_started",
+      "priority": "low",
+      "acceptanceCriteria": []
+    },
+    {
+      "id": "F3.1",
+      "phase": 3,
+      "name": "User authentication (Cognito)",
+      "description": "AWS Cognito authentication with Google/GitHub OAuth",
+      "status": "not_started",
+      "priority": "high",
+      "acceptanceCriteria": []
+    },
+    {
+      "id": "F3.2",
+      "phase": 3,
+      "name": "Upload images to S3",
+      "description": "Store images in AWS S3 buckets",
+      "status": "not_started",
+      "priority": "critical",
+      "acceptanceCriteria": []
+    },
+    {
+      "id": "F3.3",
+      "phase": 3,
+      "name": "Store story metadata in DynamoDB",
+      "description": "Save story metadata to DynamoDB tables",
+      "status": "not_started",
+      "priority": "critical",
+      "acceptanceCriteria": []
+    },
+    {
+      "id": "F3.4",
+      "phase": 3,
+      "name": "Generate shareable public links",
+      "description": "Create unique URLs for sharing stories",
+      "status": "not_started",
+      "priority": "high",
+      "acceptanceCriteria": []
+    },
+    {
+      "id": "F3.5",
+      "phase": 3,
+      "name": "Public story gallery/browse",
+      "description": "Browse publicly shared stories from all users",
+      "status": "not_started",
+      "priority": "medium",
+      "acceptanceCriteria": []
+    },
+    {
+      "id": "F3.6",
+      "phase": 3,
+      "name": "Social media sharing",
+      "description": "Share to LinkedIn, Facebook, X, Reddit",
+      "status": "not_started",
+      "priority": "medium",
+      "acceptanceCriteria": []
+    },
+    {
+      "id": "F3.7",
+      "phase": 3,
+      "name": "AWS Polly integration",
+      "description": "Premium text-to-speech using AWS Polly",
+      "status": "not_started",
+      "priority": "low",
+      "acceptanceCriteria": []
+    },
+    {
+      "id": "F3.8",
+      "phase": 3,
+      "name": "CloudFront CDN",
+      "description": "Fast content delivery via CloudFront",
+      "status": "not_started",
+      "priority": "medium",
+      "acceptanceCriteria": []
+    },
+    {
+      "id": "F3.9",
+      "phase": 3,
+      "name": "Analytics (story views, shares)",
+      "description": "Track story views and share metrics",
+      "status": "not_started",
+      "priority": "low",
+      "acceptanceCriteria": []
+    },
+    {
+      "id": "F3.10",
+      "phase": 3,
+      "name": "User dashboard",
+      "description": "Dashboard for managing user's stories",
+      "status": "not_started",
+      "priority": "medium",
+      "acceptanceCriteria": []
+    },
+    {
+      "id": "F3.11",
+      "phase": 3,
+      "name": "Story privacy settings",
+      "description": "Public/unlisted/private visibility options",
+      "status": "not_started",
+      "priority": "medium",
+      "acceptanceCriteria": []
+    }
+  ]
+}

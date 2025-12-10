@@ -1,0 +1,93 @@
+# Visual Storytelling UI - Development Progress
+
+## Session 1: 2025-12-10
+
+### Session Goals
+- Set up project with Harness framework
+- Initialize Figma codebase
+- Create story data structure
+- Begin implementing core components
+
+### Completed Features
+- [x] Created project directory: /Users/venky/git/visual-storytelling-ui/
+- [x] Created IMPLEMENTATION_PLAN.md with detailed milestones
+- [x] Created init.sh (environment setup script)
+- [x] Created features.json (33 features across 3 phases)
+- [x] Created claude-progress.txt (this file)
+- [ ] Create docs/prd.md
+- [ ] Create .claude/guidelines.md
+
+### Current Status
+**Milestone 1 in progress**: Harness Framework Setup
+
+Still to do in Milestone 1:
+- Complete PRD document
+- Complete development guidelines
+
+### Next Steps
+1. Complete Milestone 1 (Harness Framework)
+2. Move to Milestone 2 (Project Foundation - extract Figma codebase)
+3. Begin Milestone 3 (Story Data Structure)
+
+### Blockers/Issues
+- None yet
+- Waiting for user to provide story images (11 total: 1 cover + 10 pages)
+
+### Notes
+- User emphasized importance of FIXED button positioning
+- Must ensure book container has fixed dimensions
+- Images should use object-cover to fit within container
+- Layout needs to be swapped: Image LEFT, Text RIGHT (opposite of Figma)
+
+### Git Commits
+- Not yet committed (no git repo initialized yet)
+
+---
+
+## Feature Status Summary
+
+### Phase 1 (11 features)
+- Pending: 11
+- In Progress: 0
+- Completed: 0
+
+### Phase 2 (11 features)
+- Not Started: 11
+
+### Phase 3 (11 features)
+- Not Started: 11
+
+**Total Progress**: 0/33 features (0%)
+
+---
+
+## Development Guidelines
+
+### When Starting a New Session
+1. Read this file (claude-progress.txt) first
+2. Review recent git commits: `git log --oneline -10`
+3. Check features.json for current feature status
+4. Run `npm run dev` to verify app state
+5. Choose ONE feature from features.json to work on
+
+### During Development
+1. Work on ONE feature at a time
+2. Test feature thoroughly before marking complete
+3. Update features.json status field
+4. Commit with descriptive message: `feat: [feature-id] description`
+5. Keep this file updated with progress
+
+### Session End Checklist
+1. Update this file with:
+   - Features completed
+   - Current status
+   - Blockers encountered
+   - Next steps
+2. Update features.json with feature statuses
+3. Commit progress: `git commit -m "chore: update progress after session"`
+4. Ensure code is in working state
+
+---
+
+## Last Updated
+2025-12-10 - Session 1 in progress

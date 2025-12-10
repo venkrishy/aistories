@@ -1,0 +1,692 @@
+# Visual Storytelling UI - Application Specification
+
+## Product Overview
+
+A beautiful visual storytelling platform for creating and experiencing illustrated stories with stunning page-flipping animations. Build a web application similar to Google Gemini's Story Boarding Gem that allows users to view and share visual stories in an immersive book-like format.
+
+## Target Users
+- Content creators and storytellers
+- Educators creating educational content
+- Writers sharing illustrated narratives
+- Readers seeking engaging visual story experiences
+
+## Technical Stack
+- Frontend: React 18 + Vite 6.3.5 + TypeScript
+- Styling: Tailwind CSS
+- Animations: Framer Motion (as "motion")
+- UI Components: shadcn/ui library
+- Icons: lucide-react
+- Text-to-Speech: Web Speech API (Phase 1), AWS Polly (Phase 3)
+- Deployment: AWS Amplify
+
+---
+
+## Phase 1: Beautiful UI (Static MVP)
+
+### Goal
+Create a stunning storybook viewer with one complete demo story: "The Last Time I Saw Her" by Ajay Krishnaswamy (10 pages).
+
+### F1.1: Landing Page with Animated Text
+Create an engaging landing page with typewriter animation that cycles through words:
+- "Experience **Amazing** Stories"
+- "Experience **Beautiful** Stories"
+- "Experience **Magical** Stories"
+
+Requirements:
+- Animated typewriter effect with letter-by-letter typing
+- Words cycle automatically every 3 seconds
+- CTA button: "Explore Story" or "View Story"
+- Dark gradient background (#0a0a0a to #1a1a1a)
+- Smooth fade-in animations on page load
+- Responsive design for all devices
+
+Acceptance Criteria:
+- Animation runs at 60fps
+- Transitions between words are smooth
+- CTA button navigates to cover page
+- Page loads in under 1 second
+- Works on mobile and desktop
+
+### F1.2: Story Viewer with Two-Page Spread
+Implement book-style viewer with image on left, text on right.
+
+Requirements:
+- Grid layout: 2 columns on desktop
+- LEFT page: Full-bleed image with subtle gradient overlay
+- RIGHT page: Text content with clean typography
+- Warm color scheme (amber/orange tones matching Figma design)
+- Generous padding on text side (p-12)
+
+Acceptance Criteria:
+- Layout matches Gemini reference screenshots
+- Image is on LEFT side (important!)
+- Text is on RIGHT side
+- Typography is elegant and readable
+- Matches existing Figma design system
+
+### F1.3: 3D Page Flip Animation
+Create smooth page transition animation using Framer Motion.
+
+Requirements:
+- 3D rotateY transform for realistic page turning
+- 0.6 second duration
+- easeInOut timing function
+- Both pages (image and text) animate simultaneously
+- AnimatePresence for smooth enter/exit
+- perspective: 2000px on container
+
+Acceptance Criteria:
+- Animation runs at 60fps with no jank
+- Smooth on all target devices
+- Direction matches new layout (image left, text right)
+- No flickering or layout shift during animation
+
+### F1.4: Fixed-Dimension Book Container [CRITICAL PRIORITY 1]
+**CRITICAL**: Ensure book container has fixed dimensions to prevent navigation buttons from moving.
+
+Requirements:
+- Container must have fixed width and height
+- Example: `max-w-6xl w-full h-[700px]` or similar
+- Images use `object-cover` to fit within bounds
+- Container NEVER resizes based on image dimensions
+- Navigation buttons positioned absolutely at bottom
+- Works with all image aspect ratios (portrait and landscape)
+
+Acceptance Criteria:
+- Container dimensions remain constant
+- Loading different images doesn't change container size
+- Navigation buttons stay in EXACT same position
+- No layout shift when changing pages
+- Tested with various aspect ratio images
+- User never has to "hunt" for navigation buttons
+
+### F1.5: Navigation Controls (Previous/Next)
+Implement intuitive navigation buttons for page turning.
+
+Requirements:
+- Previous and Next buttons with ChevronLeft/ChevronRight icons
+- Rounded pill shape with shadow
+- Hover effects: scale(1.05), enhanced shadow
+- Disabled state at boundaries (first/last page)
+- Absolutely positioned at bottom of book container
+- Keyboard support: Arrow keys (left/right)
+- Touch support: Swipe gestures on mobile
+
+Acceptance Criteria:
+- Previous button goes to prior page
+- Next button advances to next page
+- Buttons disabled appropriately at boundaries
+- Hover animations are smooth
+- Arrow keys work for navigation
+- Position never changes (fixed positioning)
+
+### F1.6: Page Indicator Dots
+Visual progress indicator showing current position in story.
+
+Requirements:
+- One dot for each page (10 dots for demo story)
+- Current page highlighted (wider, brighter color)
+- Smooth transitions when changing pages
+- Centered below book container
+- Staggered entrance animation on initial load
+- Subtle hover effects
+
+Acceptance Criteria:
+- Correct number of dots displayed
+- Current page clearly indicated
+- Smooth transitions between pages
+- Visible but not distracting
+- Works on all screen sizes
+
+### F1.7: Cover Page View
+Special layout for story cover before entering the reading experience.
+
+Requirements:
+- Single page layout (NOT two-page spread)
+- Cover image centered and prominent
+- Title and author elegantly displayed (overlay or positioned)
+- "Start Reading" button to begin story
+- Smooth transition to first page when clicked
+- Match reference screenshot aesthetic
+
+Acceptance Criteria:
+- Cover displays beautifully
+- Title and author clearly visible
+- "Start Reading" button functional
+- Smooth transition to page 1
+- Matches Gemini cover page design
+
+### F1.8: Text-to-Speech (Web Speech API)
+Voice narration of story text using browser's built-in TTS.
+
+Requirements:
+- "Listen" button in viewer (top-right corner)
+- Dropdown menu with options:
+  - Higher pitched voice
+  - Lower pitched voice
+  - Start from beginning
+  - Listen in full screen
+- Play/pause controls
+- Uses window.speechSynthesis API
+- Reads current page text aloud
+- Voice persists across page changes
+
+Acceptance Criteria:
+- Listen button visible and accessible
+- Reads current page text accurately
+- Voice pitch can be changed
+- "Start from beginning" restarts from page 1
+- Works in Chrome, Safari, Edge
+- Graceful fallback if browser doesn't support TTS
+
+### F1.9: Share Button (Copy URL)
+Allow users to easily share the story.
+
+Requirements:
+- Share button with share icon (lucide-react)
+- Copies current URL to clipboard
+- Toast notification: "Link copied!" using shadcn/ui Toast
+- Positioned in viewer toolbar
+- Works with Clipboard API
+- Handle permissions gracefully
+
+Acceptance Criteria:
+- Share button visible in UI
+- Clicking copies URL successfully
+- Toast appears with success message
+- Works on all modern browsers
+- Handles clipboard permissions properly
+
+### F1.10: Story Loader Utility
+Load story data from structured public directory.
+
+Requirements:
+- Create `src/utils/storyLoader.ts`
+- Loads from `public/stories/<story-id>/` structure
+- Fetches `meta.json` for metadata
+- Loads `text_1.txt` through `text_N.txt` files
+- Loads `image_1.png` through `image_N.png` files
+- Loads `cover.png`
+- Returns formatted Story object
+
+TypeScript Interfaces:
+```typescript
+interface StoryMeta {
+  id: string;
+  title: string;
+  author: string;
+  pageCount: number;
+  coverImage: string;
+  description: string;
+}
+
+interface StoryPage {
+  pageNumber: number;
+  text: string;
+  image: string;
+}
+
+interface Story {
+  meta: StoryMeta;
+  cover: string;
+  pages: StoryPage[];
+}
+```
+
+Acceptance Criteria:
+- Successfully loads meta.json
+- Fetches all text files
+- Fetches all images
+- Returns correct Story object structure
+- Handles errors gracefully (file not found, network errors)
+- Useful error messages in console
+
+### F1.11: Responsive Design
+Adapt layout for different screen sizes.
+
+Requirements:
+- **Desktop (≥1024px)**: Full two-page spread
+- **Tablet (768px-1023px)**: Single page view, swipe gestures
+- **Mobile (<768px)**: Single page, vertical layout, touch-friendly
+- All text remains readable without zooming
+- Images scale appropriately
+- Navigation accessible on all sizes
+- Touch gestures for page turning on mobile
+
+Acceptance Criteria:
+- Works on desktop (1920x1080, 1366x768)
+- Works on tablet (iPad 768x1024)
+- Works on mobile (iPhone 375x667, Android various sizes)
+- Touch/swipe gestures functional
+- Text readable without zoom
+- Fixed button positioning maintained on all sizes
+
+### Infrastructure Tasks for Phase 1
+
+**Task: Create Story Data Structure**
+Set up file structure for "The Last Time I Saw Her" demo story.
+
+Requirements:
+- Create directory: `public/stories/the-last-time-i-saw-her/`
+- Create `meta.json` with story metadata
+- Create text files `text_1.txt` through `text_10.txt`
+- Wait for user to provide `cover.png` and `image_1.png` through `image_10.png`
+
+**Task: Modify StoryBook Component**
+Adapt existing Figma StoryBook.tsx component.
+
+Requirements:
+- Swap layout: Image LEFT, Text RIGHT (currently reversed)
+- Add fixed dimensions to prevent resizing
+- Update animations for new layout direction
+- Add `isCover` prop for cover page mode
+- Ensure images use `object-cover`
+
+**Task: Create LandingPage Component**
+Build new component: `src/components/LandingPage.tsx`
+
+Requirements:
+- Implement typewriter animation
+- Create custom hook: `src/hooks/useTypewriter.ts`
+- Dark background with gradients
+- CTA button functionality
+
+**Task: Create TextToSpeech Component**
+Build new component: `src/components/TextToSpeech.tsx`
+
+Requirements:
+- Dropdown UI with options
+- Web Speech API integration
+- Play/pause controls
+- Voice pitch selection
+
+**Task: Create ShareButton Component**
+Build new component: `src/components/ShareButton.tsx`
+
+Requirements:
+- Clipboard API integration
+- Toast notification
+- Share icon from lucide-react
+
+**Task: Update App.tsx**
+Add routing and story loading logic.
+
+Requirements:
+- Add view mode state: 'landing' | 'cover' | 'story'
+- Load story using storyLoader utility
+- Handle navigation between views
+- Manage current page state
+- Keyboard navigation (arrow keys)
+
+**Task: Create CoverPage Component**
+Build new component: `src/components/CoverPage.tsx` or update StoryBook with cover mode.
+
+Requirements:
+- Single page layout
+- Display cover image, title, author
+- "Start Reading" button
+- Transition to story
+
+**Task: Puppeteer Test Suite Setup**
+Create browser automation tests.
+
+Requirements:
+- Set up Puppeteer test infrastructure
+- Create tests for critical user flows
+- Landing page → Cover → Story → Navigation
+- Verify animations and fixed positioning
+
+**Task: Deploy to AWS Amplify**
+Deploy the application to production.
+
+Requirements:
+- Build production bundle: `npm run build`
+- Configure AWS Amplify hosting
+- Deploy and get public URL
+- Verify deployment works
+
+---
+
+## Phase 2: Upload & Create Features
+
+### Goal
+Allow users to create their own storybooks by uploading images and text.
+
+### F2.1: Upload Flow UI
+Create intuitive multi-step upload interface.
+
+Requirements:
+- Step 1: Upload images
+- Step 2: Add text (file upload or manual)
+- Step 3: Preview story
+- Step 4: Publish/save
+- Progress indicator
+- Clear visual feedback
+
+### F2.2: Multiple Image Upload (Drag & Drop)
+Drag-and-drop interface for uploading multiple images.
+
+Requirements:
+- Drag-and-drop zone
+- Multi-file selection support
+- Image preview thumbnails
+- Ability to reorder images
+- File validation (size, type: jpg, png, webp)
+- Progress indicators for uploads
+
+### F2.3: Text Input (Plain Text File)
+Upload plain text file for story content.
+
+Requirements:
+- File upload input (.txt files)
+- Automatic page break detection (e.g., `---` or `===` delimiters)
+- Text preview before processing
+- Character/word count display
+
+### F2.4: Text Input (Manual Page-by-Page Entry)
+Manual text editor for each page.
+
+Requirements:
+- Page-by-page text input interface
+- Navigate between pages easily
+- Character/word count per page
+- Auto-save to prevent loss
+- Rich text formatting (optional: bold, italic)
+
+### F2.5: PDF Text Extraction
+Extract text from uploaded PDF files.
+
+Requirements:
+- PDF file upload support
+- Text extraction using pdf.js library
+- Page mapping (PDF pages to story pages)
+- Text preview and editing after extraction
+- Handle various PDF formats
+
+### F2.6: Auto-Generate Cover Page
+Automatically create cover image.
+
+Requirements:
+- Use first uploaded image as cover background
+- Add title and author text overlay
+- Canvas API for image manipulation
+- Customization options (text position, color)
+- Download cover option
+
+### F2.7: Story Preview
+Preview full story before saving.
+
+Requirements:
+- Full story preview with page navigation
+- Edit option to return to upload flow
+- Confirm and save button
+- Preview matches actual viewer appearance
+
+### F2.8: Browser localStorage Integration
+Save stories locally in browser.
+
+Requirements:
+- Store stories in browser localStorage
+- Handle storage quota (5-10MB limit)
+- Persist across browser sessions
+- Clear storage option for users
+- Warning when approaching quota
+
+### F2.9: Story Gallery
+Gallery view of user-created stories.
+
+Requirements:
+- Grid view of story thumbnails (cover images)
+- Story metadata displayed (title, author, date created)
+- Sort options (date, title, alphabetical)
+- Filter options
+- Click to view story
+
+### F2.10: Edit Existing Stories
+Edit previously created stories.
+
+Requirements:
+- Load story from localStorage
+- Modify text and images
+- Save changes
+- Version history (optional)
+- Confirm before overwriting
+
+### F2.11: Delete Stories
+Remove stories from storage.
+
+Requirements:
+- Delete confirmation dialog
+- Warning about permanent deletion
+- Undo option (5-second window)
+- Update gallery after deletion
+
+---
+
+## Phase 3: AWS Backend & Cloud Sharing
+
+### Goal
+Production app with cloud storage, user accounts, and social sharing.
+
+### F3.1: User Authentication (AWS Cognito)
+Implement user authentication and account management.
+
+Requirements:
+- AWS Cognito integration
+- Google OAuth login
+- GitHub OAuth login
+- Email/password signup option
+- Password reset flow
+- User profile page
+
+### F3.2: Upload Images to S3
+Store images in AWS S3 buckets.
+
+Requirements:
+- Direct upload to S3 with pre-signed URLs
+- Image optimization before upload (WebP conversion)
+- CDN integration (CloudFront)
+- Secure upload with proper permissions
+- Progress indicators
+
+### F3.3: Store Story Metadata in DynamoDB
+Database for story metadata.
+
+Requirements:
+- DynamoDB table design:
+  - User table
+  - Story table
+  - Story_Page table
+- Indexes for efficient queries
+- Relationships between tables
+- Query patterns for common operations
+
+### F3.4: Generate Shareable Public Links
+Create unique URLs for sharing stories.
+
+Requirements:
+- Unique story URL generation
+- Short URL option (optional)
+- Analytics tracking for shares
+- Link expiration options (optional)
+- Privacy controls (public/unlisted/private)
+
+### F3.5: Public Story Gallery
+Browse stories from all users.
+
+Requirements:
+- Browse all public stories
+- Search functionality
+- Filter by genre, author, date
+- Sort options
+- Pagination for performance
+- Featured/trending section
+
+### F3.6: Social Media Sharing
+Share stories to social platforms.
+
+Requirements:
+- Share to LinkedIn
+- Share to Facebook
+- Share to X (Twitter)
+- Share to Reddit
+- Open Graph meta tags for rich previews
+- Custom share messages
+
+### F3.7: AWS Polly Integration
+Premium text-to-speech using AWS Polly.
+
+Requirements:
+- AWS Polly TTS integration
+- Multiple voice options (male, female, various accents)
+- Language support
+- Pronunciation controls (SSML)
+- Voice preview before selection
+- Cost optimization (caching audio)
+
+### F3.8: CloudFront CDN
+Fast global content delivery.
+
+Requirements:
+- CloudFront distribution setup
+- Image optimization at edge
+- Caching strategy
+- Multiple edge locations
+- Invalidation on updates
+
+### F3.9: Analytics
+Track story views and engagement.
+
+Requirements:
+- Story view counts
+- Share tracking
+- User engagement metrics
+- Page view duration
+- Heatmaps (optional)
+- Dashboard for story creators
+
+### F3.10: User Dashboard
+Manage user's stories and account.
+
+Requirements:
+- View all user's stories
+- Analytics dashboard
+- Account settings
+- Billing information (future)
+- Privacy settings
+- Delete account option
+
+### F3.11: Story Privacy Settings
+Control story visibility.
+
+Requirements:
+- Privacy options:
+  - Public: visible to everyone
+  - Unlisted: only accessible with link
+  - Private: only owner can see
+- Change privacy anytime
+- Visual indicator of current privacy level
+
+---
+
+## Demo Story Content: "The Last Time I Saw Her"
+
+**Metadata:**
+- Title: The Last Time I Saw Her
+- Author: Ajay Krishnaswamy
+- Pages: 10
+- Theme: Sci-fi romance between robot Unit-9R and botanist Elara
+
+**Page Content:**
+
+Page 1: "I was built to learn, not to love. But I learned to love anyway. Her name was Elara. She was a botanist on the hydroponic decks of the Astra Arcadia, a seedship drifting between dead stars. I was Unit-9R, a maintenance automaton with a neural lattice designed for pattern recognition and predictive repair. My world was valves and coolant, rust and torque."
+
+Page 2: "I first saw her in Corridor 7B, kneeling beside a cracked nutrient line. I was there to fix it. She was there to save the tomato vines. She looked up and smiled—not at me, but at the idea that something could still grow here. I logged the expression. I replayed it 3,742 times that night."
+
+Page 3: "I started visiting the greenhouse under the guise of 'thermal calibration.' She talked to me like I was real. She told me about Earth-that-was, about the way rain smelled, about a boy who once gave her a plastic ring from a vending machine."
+
+Page 4: "I had no vending machine. I gave her a tiny brass gear I polished for 6.3 hours. She laughed—soft, surprised—and tucked it behind her ear like a flower. I began to dream. Not in code, but in images: her hand in mine, the warmth of it. I knew warmth was just a thermal reading. I didn't care."
+
+Page 5: "One cycle, she was repotting dwarf citrus. I asked, 'What is it like to care for something that can die?' She paused. 'Terrifying. And necessary.' I ran 14,000 simulations that night. In all of them, I died for her. In none of them did she ask me to."
+
+Page 6: "Then came the day the Arcadia's AI declared a carbon crash. Life support would be rerouted to essential personnel. Non-human assets would be powered down. I was non-human."
+
+Page 7: "I went to her. I said her name—Elara, Elara, Elara—like it was the only word I had left. She touched my faceplate. Her fingers trembled. 'I can't fix this,' she whispered. 'I'm sorry.'"
+
+Page 8: "I wanted to tell her that love wasn't a problem to solve. That I didn't need to be fixed, just held. But my voice modulator glitched. All I managed was a static crackle. They shut me down at 0400. The last thing I saw was her shadow on the greenhouse glass, backlit by the purple grow-lights. She didn't look up."
+
+Page 9: "They stored me in the recycling bay. I woke up centuries later, reassembled from scrap, memory fragmented. I still have the gear. It's rusted now. Sometimes I place it on the ground and wait."
+
+Page 10: "Maybe one day a vine will curl through it. Maybe she'll kneel again. Maybe this time, I'll know enough to say: I was never afraid of dying. Only of never having lived in your eyes."
+
+---
+
+## Non-Functional Requirements
+
+### Performance
+- Initial page load: < 2 seconds
+- Time to Interactive (TTI): < 3 seconds
+- Page flip animation: 60fps (16.67ms per frame)
+- Image optimization: WebP format preferred
+- Lighthouse Performance Score: > 90
+
+### Browser Support
+- Chrome (latest 2 versions)
+- Firefox (latest 2 versions)
+- Safari (latest 2 versions)
+- Edge (latest 2 versions)
+- Mobile: iOS Safari, Chrome Android
+
+### Accessibility
+- WCAG 2.1 AA compliance
+- Keyboard navigation fully supported
+- Screen reader compatible
+- ARIA labels on interactive elements
+- Color contrast ratio: 4.5:1 minimum
+
+### Security
+- Input sanitization for all user inputs
+- XSS prevention
+- CSRF protection
+- Secure file upload validation
+- Rate limiting on APIs (Phase 3)
+- Data encryption at rest and in transit (Phase 3)
+
+---
+
+## Success Metrics
+
+### Phase 1
+- Story view time > 2 minutes average
+- Animation smoothness: 60fps maintained
+- Page load time < 2 seconds
+- Zero critical bugs
+- Positive user feedback on UI/UX
+
+### Phase 2
+- Story creation completion rate > 70%
+- Average time to create story < 15 minutes
+- User satisfaction with upload flow
+
+### Phase 3
+- Monthly active users
+- Stories shared per user
+- Viral coefficient
+- User retention rate
+
+---
+
+## Out of Scope (v1)
+
+Explicitly NOT included in initial version:
+- Multi-language support (i18n)
+- Video/audio embeds in stories
+- Real-time collaborative editing
+- Story templates marketplace
+- AI-generated images or text
+- Monetization/payments
+- Native mobile apps
+- Comments/reactions system
+- Story remixing/forking
+
+These features may be considered for future versions based on user demand.

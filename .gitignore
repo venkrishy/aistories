@@ -1,0 +1,46 @@
+# Node
+node_modules/
+.env*
+.env.local
+
+# Build output
+/dist/
+/build/
+
+# Vite cache
+/.vite/
+
+# Local env files
+.env
+.env.local
+.env.*.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Testing
+/coverage/
+.nyc_output/
+
+# Runtime data
+.DS_Store
+Thumbs.db
+
+# Editor directories and files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Misc
+.cache/
+*.local
+
+# Lockfiles (if you commit locks keep them; otherwise ignore)
+# Uncomment to ignore lockfiles entirely:
+# /yarn.lock
