@@ -14,6 +14,11 @@ node_modules/
 .env
 .env.local
 .env.*.local
+.env.temp
+.env.prod
+
+.playwright-mcp/
+
 
 # Logs
 npm-debug.log*
@@ -40,6 +45,15 @@ Thumbs.db
 # Misc
 .cache/
 *.local
+
+# Story images (served from R2)
+/stories/**/*.webp
+/stories/**/*.jpg
+/stories/**/*.png
+/stories/**/*.jpeg
+
+# R2 upload logs
+/scripts/r2-upload.log
 
 # Lockfiles (if you commit locks keep them; otherwise ignore)
 # Uncomment to ignore lockfiles entirely:

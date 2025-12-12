@@ -1,5 +1,6 @@
 # Product Requirements Document
-## Visual Storytelling UI
+## AI Stories Beautifully Rendered
+Web: aistories.online
 
 **Version**: 1.0
 **Date**: 2025-12-10
@@ -34,7 +35,7 @@ Create a beautiful, intuitive visual storytelling platform that allows users to 
 ### 2.1 Overview
 **Goal**: Create a stunning storybook viewer with one complete demo story
 **Timeline**: Current phase (in development)
-**Deliverable**: Working app deployed on AWS Amplify with "The Last Time I Saw Her" story
+**Deliverable**: Working app deployed with a couple of stories
 
 ### 2.2 Features
 
@@ -48,7 +49,6 @@ Create a beautiful, intuitive visual storytelling platform that allows users to 
   - "Experience **Beautiful** Stories"
   - "Experience **Magical** Stories"
 - CTA button: "View Story" or "Explore Story"
-- Dark gradient background (#0a0a0a to #1a1a1a)
 - Smooth fade-in animations on page load
 - Responsive design
 
@@ -238,40 +238,6 @@ Create a beautiful, intuitive visual storytelling platform that allows users to 
 - Loads `cover.png`
 - Returns formatted Story object
 
-**Interfaces**:
-```typescript
-interface StoryMeta {
-  id: string;
-  title: string;
-  author: string;
-  pageCount: number;
-  coverImage: string;
-  description: string;
-}
-
-interface StoryPage {
-  pageNumber: number;
-  text: string;
-  image: string;
-}
-
-interface Story {
-  meta: StoryMeta;
-  cover: string;
-  pages: StoryPage[];
-}
-```
-
-**Acceptance Criteria**:
-- [ ] Successfully loads meta.json
-- [ ] Fetches all text files
-- [ ] Fetches all images
-- [ ] Returns correct Story object structure
-- [ ] Handles errors gracefully (file not found, etc.)
-- [ ] Logs useful error messages
-
----
-
 #### F1.11: Responsive Design (Mobile-Friendly)
 **Priority**: High
 **User Story**: As a mobile reader, I want the story to look great on my phone.
@@ -293,28 +259,6 @@ interface Story {
 - [ ] Fixed button positioning maintained
 
 ---
-
-### 2.3 Demo Story: "The Last Time I Saw Her"
-
-**Title**: The Last Time I Saw Her
-**Author**: Ajay Krishnaswamy
-**Pages**: 10
-**Theme**: Sci-fi romance between a robot (Unit-9R) and a botanist (Elara) on a seedship
-
-**Content Structure**:
-- Page 1: Opening - introduces Unit-9R and Elara
-- Page 2: First Meeting - Corridor 7B encounter
-- Page 3: Building Connection - greenhouse visits
-- Page 4: The Gift - brass gear gift
-- Page 5: The Question - about caring for mortal things
-- Page 6: The Crisis - carbon crash announced
-- Page 7: Goodbye - final conversation
-- Page 8: The Last Moment - shutdown sequence
-- Page 9: Awakening - centuries later
-- Page 10: Hope - ending with possibility
-
----
-
 ### 2.4 Technical Requirements
 
 **Framework & Tools**:

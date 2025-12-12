@@ -1,0 +1,65 @@
+1. Updated .gitignore - Story images are now excluded from git
+  2. Installed dependencies - Added @aws-sdk/client-s3 and dotenv (using pnpm)
+  3. Created R2 upload script - scripts/upload-to-r2.js with idempotent uploads
+  4. Updated storyLoader.ts - Now uses R2 URLs directly from story.json
+  5. Created GitHub Actions workflow - .github/workflows/deploy.yml for automated deployment
+  6. Added ES6 module support - Updated package.json with "type": "module"
+
+  ---
+  📋 Your Next Steps:
+
+  STEP 1: Get Credentials & Create .env.local
+
+  Create /Users/venky/git/aistories/.env.local with:
+  CLOUDFLARE_ACCOUNT_ID=9e1c4092ca4c803f08a507eab1d1d1e7
+  CLOUDFLARE_R2_ACCESS_KEY_ID=<your R2 access key ID>
+  CLOUDFLARE_R2_SECRET_ACCESS_KEY=<your R2 secret key>
+  R2_BUCKET_NAME=aistories
+  R2_PUBLIC_URL=https://cdn.aistories.online
+
+  Get R2 keys here: https://dash.cloudflare.com/9e1c4092ca4c803f08a507eab1d1d1e7/r2/overview/api-tokens
+
+  ---
+  STEP 2: Configure R2 Bucket
+
+  1. Enable custom domain: https://dash.cloudflare.com/9e1c4092ca4c803f08a507eab1d1d1e7/r2/default/buckets/aistories
+    - Settings → Public Access → Connect Domain → cdn.aistories.online
+  2. Add CORS policy (same page):
+  [{"AllowedOrigins": ["https://aistories.online", "http://localhost:3000"], "AllowedMethods": ["GET", "HEAD"], "AllowedHeaders": ["*"], "MaxAgeSeconds": 3600}]
+
+  ---
+  STEP 3: Upload Images to R2
+
+  Once you've created .env.local, run:
+  node scripts/upload-to-r2.js
+
+  This will:
+  - Upload all 24 images to R2
+  - Update story.json files with R2 URLs
+  - Create backups of original story.json files
+
+  ---
+  STEP 4: Create GitHub Repository
+
+  gh repo create aistories --public --source=. --remote=origin --description="AI-generated visual stories with page-flip animations"
+
+  ---
+  STEP 5: Add GitHub Secrets
+
+  gh secret set CLOUDFLARE_API_TOKEN
+  # (paste your Cloudflare API token when prompted)
+
+  gh secret set CLOUDFLARE_ACCOUNT_ID -b "9e1c4092ca4c803f08a507eab1d1d1e7"
+
+  Get API token here: https://dash.cloudflare.com/profile/api-tokens (Create Token → "Edit Cloudflare Workers" template)
+
+  ---
+  STEP 6: Deploy!
+
+  git add .
+  git commit -m "feat: deploy to Cloudflare Pages with R2 images"
+  git push -u origin main
+
+  GitHub Actions will automatically build and deploy to Cloudflare Pages! 🚀
+
+  ---

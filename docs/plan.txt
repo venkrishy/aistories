@@ -1,0 +1,37 @@
+## Extract Text
+Go to "Extracted Image.txt" and delete all text
+Manually extract text from each image
+Execute: cp ~/shortcutslink/extracted_image_text.txt ~/git/aistories/stories/asgard_story.txt
+Delete the file: rm ~/shortcutslink/extracted_image_text.txt asgard_story.txt
+
+
+## Generate the JSON File
+Run the Agent Prompt which will generate the JSON file
+
+Output this in stories folder.  Filename will be the project folder name with .json extension.  For example, if the folder name is "abc", then the output file name will be abc.json.
+PROMPT FILE: '~/aistories/docs/agentic-prompts/json_agent_prompt.txt'
+STORY FILE: '~/stories/asgard-wall/asgard_story.txt' 
+
+
+
+## Renumber Files from Desktop
+rename_by_timestamp.sh
+
+## Split image left half and right half 
+cut-image-horizontally.sh righthalf cover.png
+cut-image-horizontally.sh lefthalf *I*.png
+
+## Add Watermarks 
+watermark-images.sh "Venky Krishnaswamy" *.png
+
+
+
+## Convert to WEBP convert-to-webp.sh
+convert-to-webp.sh -q 80 watermarked_.png
+
+## Rename files cover.png and 01 through 10 
+rename -vs watermarked_page_ images_ * 
+
+
+Store all the JSON files in the Stories folder.  
+

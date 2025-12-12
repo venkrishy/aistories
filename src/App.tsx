@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { StoryBook } from './components/StoryBook';
+import { LandingPage } from './components/LandingPage';
+import { motion } from 'motion/react';
+import { ArrowLeft } from 'lucide-react';
 
 interface Story {
   id: number;
@@ -43,6 +46,7 @@ const stories: Story[] = [
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState(0);
+  const [selectedStory, setSelectedStory] = useState<number | null>(null);
 
   const nextPage = () => {
     if (currentPage < stories.length - 1) {
@@ -56,8 +60,35 @@ export default function App() {
     }
   };
 
+  const handleSelectStory = (index: number) => {
+    setCurrentPage(index);
+    setSelectedStory(index);
+  };
+
+  const handleBackToHome = () => {
+    setSelectedStory(null);
+  };
+
+  // Show landing page
+  if (selectedStory === null) {
+    return <LandingPage stories={stories} onSelectStory={handleSelectStory} />;
+  }
+
+  // Show story book
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 flex items-center justify-center p-4">
+      {/* Back to Home Button */}
+      <motion.button
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.3 }}
+        onClick={handleBackToHome}
+        className="fixed top-6 left-6 z-50 flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-lg hover:shadow-xl hover:bg-amber-50 transition-all duration-300 group"
+      >
+        <ArrowLeft className="w-5 h-5 text-amber-600 group-hover:-translate-x-1 transition-transform" />
+        <span className="text-amber-900">Back to Stories</span>
+      </motion.button>
+
       <StoryBook
         story={stories[currentPage]}
         currentPage={currentPage}
