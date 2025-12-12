@@ -1,0 +1,38 @@
+{
+    "permissions": {
+      "allow": [
+        "Bash(head:*)",
+        "Bash(chmod:*)",
+        "Bash(bash -n:*)",
+        "Bash(find:*)",
+        "Bash(cat:*)",
+        "Bash(ls:*)",
+        "Bash(pbpaste)",
+        "Bash(file:*)",
+        "Bash(pnpm add:*)",
+        "Bash(pnpm run dev)",
+        "Bash(pnpm run check:*)",
+        "Bash(pnpm exec tsc:*)",
+        "Bash(pnpm run build:*)",
+        "Bash(node test-landing-page.js:*)",
+        "Bash(node test-detailed-analysis.js:*)",
+        "Bash(node test-carousel-debug.js:*)",
+        "Bash(mcp list-tools:*)",
+        "Bash(mcp list-servers:*)",
+        "Bash(node:*)",
+        "Bash(playwright-mcp navigate:*)",
+        "Bash(npx playwright:*)",
+        "Bash(npx playwright-mcp:*)",
+        "mcp__ide__getDiagnostics",
+        "Bash(gh:*)",
+        "Bash(wrangler --version:*)",
+        "Bash(wrangler r2 bucket:*)",
+        "Bash(git add:*)",
+        "Bash(git commit:*)",
+        "Bash(git push)",
+        "Bash(git config:*)",
+        "Bash(git pull:*)",
+      ]
+    }
+  }
+  

@@ -1,5 +1,4 @@
 # Sample AGENTS.md file
-Call me Joe
 Please limit all output tokens to under 10000 tokens per session.  I need to see very little other than the final answer, certainly no code , no tasks, What you are exploring, your plan, features implemented etc.  
 
 Write out every work you have done into claude_history.txt file.  In a single line summarized within 300 words.  Always print out the total input tokens and output tokens used.

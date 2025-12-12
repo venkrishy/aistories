@@ -4,6 +4,7 @@ export interface StoryMetadata {
   title: string;
   author?: string;
   description?: string;
+  coverImage?: string;
   pages: StoryPage[];
 }
 
@@ -32,7 +33,7 @@ const AVAILABLE_STORIES = [
 
 async function loadStoryMetadata(slug: string): Promise<StoryMetadata | null> {
   try {
-    const response = await fetch(`/stories/${slug}/story.json`);
+    const response = await fetch(`/data/${slug}.json`);
     if (response.ok) {
       return await response.json();
     }
