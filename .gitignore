@@ -55,6 +55,10 @@ Thumbs.db
 # R2 upload logs
 /scripts/r2-upload.log
 
+ai_docs/
+ai_memory/
+claude_history.txt
+
 # Lockfiles (if you commit locks keep them; otherwise ignore)
 # Uncomment to ignore lockfiles entirely:
 # /yarn.lock
