@@ -31,3 +31,4 @@
 
 # Instructions for claude.
 Please review the instructions in claude.md which references ai_docs/Agents.md.  If you can't see Agents.md, please inform the developer.
+Reference README_PROJECT.md too

@@ -18,7 +18,7 @@ export function Hero() {
   }, [currentIndex, fullText]);
 
   return (
-    <section 
+    <section
       id="hero-section"
       className="py-12 md:py-16"
       aria-label="Hero section"
