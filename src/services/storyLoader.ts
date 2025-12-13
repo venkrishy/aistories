@@ -26,9 +26,10 @@ export interface StoryCardData {
 
 // List of available stories (JSON format only)
 const AVAILABLE_STORIES = [
-  { slug: 'asgard-wall', title: 'The Building of Asgard\'s Wall' },
   { slug: 'magical-sword-and-clever-sailor', title: 'The Magical Sword and the Clever Sailor' },
-  // { slug: 'giant-cauldron', title: 'The Giant\'s Cauldron' }, // Skipping - invalid JSON
+  { slug: 'giants-cauldron', title: 'The Giant\'s Cauldron' },
+  { slug: 'last-time-i-saw-her', title: 'The Last Time I Saw Her' },
+  { slug: 'red-earths-promise', title: 'The Red Earth\'s Promise' },
 ];
 
 async function loadStoryMetadata(slug: string): Promise<StoryMetadata | null> {
