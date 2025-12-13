@@ -1,0 +1,2 @@
+gh run list --repo venkrishy/aistories --limit 10
+gh run view 20181670428 --repo venkrishy/aistories --log

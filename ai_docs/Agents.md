@@ -3,7 +3,7 @@ Please limit all output tokens to under 10000 tokens per session.  I need to see
 
 Write out every work you have done into claude_history.txt file.  In a single line summarized within 300 words.  Always print out the total input tokens and output tokens used.
 
-
+Always use context7 when I need code generation, setup or configuration steps, or library/API documentation. This means you should automatically use the Context7 MCP tools to resolve library id and get library docs without me having to explicitly ask.
 
 ## Dev environment tips
 - Don't use npm.  Use pnpm only.  This will help fix 'Access token expired or revoked' issues

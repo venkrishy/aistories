@@ -1,4 +1,17 @@
 #!/usr/bin/env node
+/*
+These need to be set in the .env.local file
+
+CLOUDFLARE_ACCOUNT_ID=your_account_id
+CLOUDFLARE_R2_ACCESS_KEY_ID=your_access_key_id
+CLOUDFLARE_R2_SECRET_ACCESS_KEY=your_secret_access_key
+R2_BUCKET_NAME=your_bucket_name
+R2_PUBLIC_URL=https://your-public-url.com
+CLOUDFLARE_R2_ACCESS_KEY_ID=your_access_key_id
+CLOUDFLARE_R2_SECRET_ACCESS_KEY=your_secret_access_key
+
+*/
+
 
 import { S3Client, PutObjectCommand, HeadObjectCommand } from '@aws-sdk/client-s3';
 import { readFileSync, writeFileSync, readdirSync, statSync, mkdirSync } from 'fs';
@@ -9,8 +22,8 @@ import dotenv from 'dotenv';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Load environment variables
-dotenv.config({ path: join(__dirname, '..', '.env.local') });
+// Load environment variables from project root
+dotenv.config({ path: join(__dirname, '..', '..', '.env.local') });
 
 // Configuration
 const config = {
@@ -210,8 +223,8 @@ async function main() {
   const client = createR2Client();
 
   // Get project root and stories directory
-  const projectRoot = join(__dirname, '..');
-  const storiesDir = join(projectRoot, 'stories');
+  const projectRoot = join(__dirname, '..', '..');
+  const storiesDir = join(projectRoot, 'scripts', 'stories');
 
   // Get story directories
   let stories = getStoryDirectories(storiesDir);

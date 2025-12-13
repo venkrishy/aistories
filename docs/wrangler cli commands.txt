@@ -1,0 +1,4 @@
+wrangler login
+wrangler pages project list
+wrangler r2 bucket domain --zone-id $ZONE_ID add aistories --domain cdn.aistories.online
+wrangler r2 bucket sipkey create aistories-upload-key
