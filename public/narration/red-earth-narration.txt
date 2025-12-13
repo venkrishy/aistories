@@ -1,0 +1,58 @@
+# AUDIO PROFILE: Red Earth Audiobook
+## Multi-Speaker Dramatic Narration
+
+## THE SCENE: The American South
+The story unfolds across the sweeping red clay fields of the antebellum South, through war and reconstruction. The landscape shifts from golden prosperity to gray ruin, and finally to hard-won recovery. The emotional arc moves from innocence through despair to fierce determination.
+
+### DIRECTOR'S NOTES
+
+**For Narrator:**
+Style: Rich, literary Southern storytelling voice. Warm and evocative during the opening pastoral scenes, growing somber and heavy during the war passages, then building to fierce intensity during Maeve's vow. When voicing Sterling's dialogue, shift to a smooth, knowing masculine tone with subtle sardonic warmth.
+
+Pacing: Measured and deliberate, allowing the weight of each image to land. Slow during reflective moments, quickening slightly during conflict, pausing dramatically before Maeve's famous vow.
+
+Accent: Refined Southern American, reminiscent of old Georgia gentry.
+
+**For Maeve:**
+Style: Young Southern belle transformed by hardship. Her single line must convey desperate hunger, iron will, and fierce defiance all at once. This is her defining moment of transformation from pampered girl to survivor.
+
+Pacing: Slow, deliberate, building in intensity. Each word is a vow carved in stone.
+
+Accent: Classic Southern belle from Georgia plantation society.
+
+---
+
+### TRANSCRIPT
+
+Narrator: The Red Earth's Promise.
+
+Narrator: The red fields of Oakhaven stretched wide, a kingdom held together by rich earth and the swift will of Miss Maeve. She stood amidst the summer glow, accustomed to admiration, accustomed to ease. The world was ordered, beautiful, and utterly her own.
+
+Narrator: But the gentle, golden afternoon turned harsh and gray. Conflict, a distant storm once sung in polite parlors, swept across the landscape, shattering the delicate glass of their lives. Oakhaven's coffers emptied faster than the fields turned fallow.
+
+Narrator: When she returned, the grand house, her beloved Oakhaven, was scarred. Silence had replaced the laughter, and the rich earth seemed to weep dust. Everything was gone but the chimney smoke... and her own stubborn breath.
+
+Narrator: The gnawing hunger was worse than the sight of ruin. It was a physical, terrifying adversary. Maeve watched her family fade, realizing that beauty and lineage meant nothing against the stark reality of an empty stomach.
+
+Narrator: She crawled to the edge of the property, grasping a handful of the sacred, blood-red soil. Her fists were clenched, not just with dirt, but with iron resolve.
+
+Maeve: As God is my witness... I shall never be hungry again.
+
+Narrator: The survival meant sacrificing elegance for shrewdness. She learned to scheme, to bargain, and to wield charm like a sharp, hidden dagger. Oakhaven would not fall, not because of good manners, but because of good, hard business.
+
+Narrator: She built her foundation on the very things polite society now deemed unsuitable: lumber, profit, and the swift exploitation of opportunity. The fields remained sacred, but their value lay now in their ability to shelter an enterprise.
+
+Narrator: Sterling told her, lighting a cigar slowly, with knowing amusement in his voice: "You have the courage of a dozen captains. But your love for that piece of dirt blinds you to the greater world. You confuse possession with happiness."
+
+Narrator: Oakhaven stood strong once more, painted and proud, bought and paid for by Maeve's fierce persistence. But sitting in her restored parlor, she realized the land she saved had cost her pieces of her own soul... and the simple joy she once sought.
+
+Narrator: Yet, the resilience remained. That burning, defiant core that had gripped the red earth refused to break. She had lost much, but she knew how to survive, and she knew, absolutely, how to begin again. The horizon waited, wide and uncertain, demanding her resolve.
+
+---
+
+### VOICE CONFIGURATION (for Gemini AI Studio)
+
+Speaker 1 - Narrator: Charon (Informative) or Gacrux (Mature)
+Speaker 2 - Maeve: Kore (Firm) or Aoede (Breezy)
+
+Note: Multi-speaker mode in Gemini TTS supports up to 2 speakers. Sterling's dialogue is integrated into Narrator's delivery with direction for masculine tone shift.
