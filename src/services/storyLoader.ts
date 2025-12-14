@@ -5,6 +5,7 @@ export interface StoryMetadata {
   author?: string;
   description?: string;
   coverImage?: string;
+  audioUrl?: string;
   pages: StoryPage[];
 }
 
@@ -15,6 +16,7 @@ export interface StoryData {
   author?: string;
   description?: string;
   pages: StoryPage[];
+  audioUrl?: string;
 }
 
 export interface StoryCardData {
@@ -62,6 +64,7 @@ export async function loadStories(): Promise<StoryData[]> {
         author: metadata.author,
         description: metadata.description,
         pages: metadata.pages, // Already contains full R2 URLs
+        audioUrl: metadata.audioUrl,
       });
     } else {
       console.warn(`Story "${storyInfo.slug}" has no valid metadata, skipping...`);
@@ -86,6 +89,7 @@ export async function loadStory(slug: string): Promise<StoryData | null> {
       author: metadata.author,
       description: metadata.description,
       pages: metadata.pages, // Already contains full R2 URLs
+      audioUrl: metadata.audioUrl,
     };
   }
 

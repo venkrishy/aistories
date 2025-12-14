@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'motion/react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Volume2, Pause, ChevronDown } from 'lucide-react';
 
 interface Story {
   id: number;
@@ -16,6 +16,9 @@ interface StoryBookProps {
   onPrevPage: () => void;
   canGoNext: boolean;
   canGoPrev: boolean;
+  onTogglePlay?: () => void;
+  isPlaying?: boolean;
+  audioUrl?: string;
 }
 
 export function StoryBook({
@@ -26,11 +29,65 @@ export function StoryBook({
   onPrevPage,
   canGoNext,
   canGoPrev,
+  onTogglePlay,
+  isPlaying = false,
+  audioUrl,
 }: StoryBookProps) {
+  const hasAudio = audioUrl && onTogglePlay;
+
   return (
     <div className="relative w-full max-w-7xl">
+      {/* Top Navigation Bar */}
+      {hasAudio && (
+        <div className="absolute top-0 left-0 right-0 z-50 p-4 bg-gradient-to-b from-black/20 via-black/10 to-transparent pointer-events-none" style={{ zIndex: 100 }}>
+          <div className="flex justify-between items-center pointer-events-auto" style={{ position: 'relative', zIndex: 101 }}>
+            {/* Page Indicator - removed text, only arrows */}
+            <div className="flex items-center gap-2 text-white">
+              <button
+                onClick={onPrevPage}
+                disabled={!canGoPrev}
+                className={`p-1 ${canGoPrev ? 'hover:opacity-80' : 'opacity-40 cursor-not-allowed'}`}
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <button
+                onClick={onNextPage}
+                disabled={!canGoNext}
+                className={`p-1 ${canGoNext ? 'hover:opacity-80' : 'opacity-40 cursor-not-allowed'}`}
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Listen/Pause Button */}
+            <button
+              id="listen-button"
+              onClick={onTogglePlay}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-blue-600 hover:bg-blue-700 text-white transition-all duration-200 shadow-xl border-2 border-blue-500/50 backdrop-blur-sm"
+              style={{ 
+                backgroundColor: '#2563eb',
+                boxShadow: '0 10px 25px -5px rgba(37, 99, 235, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1)'
+              }}
+            >
+              {isPlaying ? (
+                <>
+                  <Pause className="w-4 h-4" />
+                  <span>Pause</span>
+                </>
+              ) : (
+                <>
+                  <Volume2 className="w-4 h-4" />
+                  <span>Listen</span>
+                </>
+              )}
+              <ChevronDown id="listen-dropdown" className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Book Container */}
-      <div className="relative bg-white rounded-lg shadow-2xl overflow-hidden" style={{ perspective: '2000px' }}>
+      <div className="relative bg-white rounded-lg shadow-2xl overflow-hidden" style={{ perspective: '2000px', zIndex: 1 }}>
         <div className="grid md:grid-cols-2 min-h-[600px]">
           {/* Left Page - Text */}
           <AnimatePresence mode="wait">
@@ -75,6 +132,7 @@ export function StoryBook({
               style={{ transformStyle: 'preserve-3d' }}
             >
               <motion.img
+                id="listen-image"
                 src={story.image}
                 alt={story.title}
                 className="w-full h-full object-cover"
@@ -82,7 +140,7 @@ export function StoryBook({
                 animate={{ scale: 1 }}
                 transition={{ duration: 0.8 }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+              <div id="listen-image-overlay" className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
             </motion.div>
           </AnimatePresence>
         </div>

@@ -61,6 +61,10 @@
     },
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "test": "playwright test",
+        "test:listen": "playwright test tests/listen-feature.spec.ts",
+        "test:listen:headed": "playwright test tests/listen-feature.spec.ts --headed",
+        "test:listen:ui": "playwright test tests/listen-feature.spec.ts --ui"
     }
 }

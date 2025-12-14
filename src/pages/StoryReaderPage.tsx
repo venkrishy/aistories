@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from '@tanstack/react-router';
 import { StoryBook } from '../components/StoryBook';
 import { loadStory } from '../services/storyLoader';
@@ -18,6 +18,9 @@ export default function StoryReaderPage() {
   const [currentPage, setCurrentPage] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const [currentTime, setCurrentTime] = useState(0);
 
   useEffect(() => {
     const initializeStory = async () => {
@@ -48,15 +51,113 @@ export default function StoryReaderPage() {
 
   const nextPage = () => {
     if (story && currentPage < story.pages.length - 1) {
-      setCurrentPage(currentPage + 1);
+      const newPage = currentPage + 1;
+      setCurrentPage(newPage);
+      
+      // If audio is playing, seek to new page's timestamp
+      if (isPlaying && audioRef.current && story.pages[newPage]?.timestamp !== undefined) {
+        audioRef.current.currentTime = story.pages[newPage].timestamp!;
+      }
     }
   };
 
   const prevPage = () => {
     if (currentPage > 0) {
-      setCurrentPage(currentPage - 1);
+      const newPage = currentPage - 1;
+      setCurrentPage(newPage);
+      
+      // If audio is playing, seek to previous page's timestamp
+      if (isPlaying && audioRef.current && story.pages[newPage]?.timestamp !== undefined) {
+        audioRef.current.currentTime = story.pages[newPage].timestamp!;
+      }
     }
   };
+
+  const handleTogglePlay = () => {
+    if (!audioRef.current || !story?.audioUrl) return;
+
+    if (isPlaying) {
+      // Pause audio
+      audioRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      // Start playing from current page's timestamp
+      const currentPageData = story.pages[currentPage];
+      const startTime = currentPageData?.timestamp ?? 0;
+      audioRef.current.currentTime = startTime;
+      
+      // Check if we need to advance to the correct page based on current audio time
+      // This handles the case where audio was already playing and user paused/resumed
+      const checkAndUpdatePage = () => {
+        const audioTime = audioRef.current?.currentTime ?? startTime;
+        // Find the correct page for the current audio time
+        for (let i = story.pages.length - 1; i >= 0; i--) {
+          const pageTimestamp = story.pages[i]?.timestamp;
+          if (pageTimestamp !== undefined && audioTime >= pageTimestamp) {
+            if (i !== currentPage) {
+              setCurrentPage(i);
+            }
+            break;
+          }
+        }
+      };
+      
+      // Small delay to ensure audio time is set
+      setTimeout(checkAndUpdatePage, 50);
+      
+      audioRef.current.play().catch((err) => {
+        console.error('Failed to play audio:', err);
+        setIsPlaying(false);
+      });
+      setIsPlaying(true);
+    }
+  };
+
+  const handleTimeUpdate = () => {
+    if (!audioRef.current) return;
+    const time = audioRef.current.currentTime;
+    setCurrentTime(time);
+  };
+
+  const handleAudioEnded = () => {
+    setIsPlaying(false);
+    setCurrentTime(0);
+  };
+
+  // Auto-flip logic based on timestamps
+  useEffect(() => {
+    if (!isPlaying || !story || !audioRef.current) return;
+
+    const checkAutoFlip = () => {
+      const audioTime = audioRef.current?.currentTime ?? 0;
+      
+      // Check if we should flip to the next page
+      if (currentPage < story.pages.length - 1) {
+        const nextPageData = story.pages[currentPage + 1];
+        const currentPageData = story.pages[currentPage];
+        
+        // Only flip if:
+        // 1. Next page has a timestamp
+        // 2. Audio time is at or past next page's timestamp
+        // 3. Audio time is past current page's timestamp (to avoid flipping too early)
+        if (
+          nextPageData?.timestamp !== undefined &&
+          audioTime >= nextPageData.timestamp &&
+          (currentPageData?.timestamp === undefined || audioTime >= currentPageData.timestamp)
+        ) {
+          setCurrentPage((prev) => {
+            // Make sure we don't go beyond the last page
+            const newPage = Math.min(prev + 1, story.pages.length - 1);
+            return newPage;
+          });
+        }
+      }
+    };
+
+    // Check periodically (every 100ms)
+    const interval = setInterval(checkAutoFlip, 100);
+    return () => clearInterval(interval);
+  }, [isPlaying, story, currentPage]);
 
   const goToHome = () => {
     navigate({ to: '/' });
@@ -99,6 +200,23 @@ export default function StoryReaderPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 flex items-center justify-center p-4">
+      {/* Hidden audio element */}
+      {story?.audioUrl && (
+        <audio
+          ref={audioRef}
+          src={story.audioUrl}
+          onTimeUpdate={handleTimeUpdate}
+          onEnded={handleAudioEnded}
+          onLoadedMetadata={() => {
+            // Audio loaded, ready to play
+          }}
+          onError={(e) => {
+            console.error('Audio error:', e);
+            setIsPlaying(false);
+          }}
+        />
+      )}
+
       <StoryBook
         story={bookPage}
         currentPage={currentPage}
@@ -108,6 +226,9 @@ export default function StoryReaderPage() {
         onGoToFirstPage={goToHome}
         canGoNext={currentPage < story.pages.length - 1}
         canGoPrev={currentPage > 0}
+        onTogglePlay={story?.audioUrl ? handleTogglePlay : undefined}
+        isPlaying={isPlaying}
+        audioUrl={story?.audioUrl}
       />
     </div>
   );
