@@ -1,4 +1,6 @@
-// standalone-story-extractor.js
+// Extracts story content from a Gemini shared link.
+// Navigates through all pages, extracts text from each,
+// and saves the complete story data to a JSON file.
 const { chromium } = require('playwright');
 const fs = require('fs');
 const path = require('path');

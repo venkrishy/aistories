@@ -72,7 +72,8 @@ for domain in \
     "statsig.com" \
     "marketplace.visualstudio.com" \
     "vscode.blob.core.windows.net" \
-    "update.code.visualstudio.com"; do
+    "update.code.visualstudio.com" \
+    "cdn.aistories.online"; do
     echo "Resolving $domain..."
     ips=$(dig +noall +answer A "$domain" | awk '$4 == "A" {print $5}')
     if [ -z "$ips" ]; then
@@ -134,4 +135,11 @@ if ! curl --connect-timeout 5 https://api.github.com/zen >/dev/null 2>&1; then
     exit 1
 else
     echo "Firewall verification passed - able to reach https://api.github.com as expected"
+fi
+# Verify CDN access
+if ! curl --connect-timeout 5 https://cdn.aistories.online >/dev/null 2>&1; then
+    echo "ERROR: Firewall verification failed - unable to reach https://cdn.aistories.online"
+    exit 1
+else
+    echo "Firewall verification passed - able to reach https://cdn.aistories.online as expected"
 fi

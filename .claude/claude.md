@@ -13,3 +13,9 @@ All code must be written in a modular way, and where possible, using good object
 6. Use Serena MCP.  If you are not having serena in the /mcp list, inform me.
 
 Please execute the slash command /context_prime on startup
+
+## Node
+    - Never use Javascript, use Typescript only
+    - Use ES modules only
+    - never use require
+
