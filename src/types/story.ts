@@ -2,6 +2,7 @@ export interface StoryPage {
   page: number;
   image: string;
   text: string;
+  chapter?: string; // Custom chapter title, if not provided uses "Chapter X"
   timestamp?: number; // Seconds from audio start when page should flip
 }
 

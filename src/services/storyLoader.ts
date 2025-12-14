@@ -32,6 +32,7 @@ const AVAILABLE_STORIES = [
   { slug: 'giants-cauldron', title: 'The Giant\'s Cauldron' },
   { slug: 'last-time-i-saw-her', title: 'The Last Time I Saw Her' },
   { slug: 'red-earths-promise', title: 'The Red Earth\'s Promise' },
+  { slug: 'quiet-clock', title: 'The Quiet Clockwork' },
 ];
 
 async function loadStoryMetadata(slug: string): Promise<StoryMetadata | null> {

@@ -9,6 +9,7 @@ interface BookPage {
   title: string;
   content: string;
   image: string;
+  chapter?: string;
 }
 
 export default function StoryReaderPage() {
@@ -196,6 +197,7 @@ export default function StoryReaderPage() {
     title: story.title,
     content: currentPageData.text,
     image: currentPageData.image,
+    chapter: currentPageData.chapter,
   };
 
   return (

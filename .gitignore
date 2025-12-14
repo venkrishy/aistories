@@ -1,5 +1,6 @@
 # Node
 node_modules/
+.pnpm-store/
 .env*
 .env.local
 
@@ -29,6 +30,8 @@ pnpm-debug.log*
 # Testing
 /coverage/
 .nyc_output/
+/test-results/
+tests/*.png
 
 # Runtime data
 .DS_Store
