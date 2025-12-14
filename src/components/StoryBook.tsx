@@ -6,6 +6,7 @@ interface Story {
   title: string;
   content: string;
   image: string;
+  chapter?: string;
 }
 
 interface StoryBookProps {
@@ -103,7 +104,7 @@ export function StoryBook({
               <div className="space-y-6">
                 <div className="space-y-2">
                   <div className="text-sm text-amber-600 tracking-widest uppercase">
-                    Chapter {currentPage + 1}
+                    {story.chapter || `Chapter ${currentPage + 1}`}
                   </div>
                   <h1 className="text-4xl text-amber-900">
                     {story.title}
