@@ -54,6 +54,7 @@ Thumbs.db
 
 # R2 upload logs
 /scripts/r2-upload.log
+.pnpm-store
 
 ai_docs/
 ai_memory/
