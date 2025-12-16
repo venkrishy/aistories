@@ -62,6 +62,7 @@ Thumbs.db
 ai_docs/
 ai_memory/
 claude_history.txt
+extracted-stories/
 
 # Lockfiles (if you commit locks keep them; otherwise ignore)
 # Uncomment to ignore lockfiles entirely:

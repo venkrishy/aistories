@@ -1,5 +1,6 @@
 import { Link } from '@tanstack/react-router';
 import type { StoryCardData } from '../services/storyLoader';
+import { ImageWithFallback } from './figma/ImageWithFallback';
 
 interface StoryGridProps {
   stories: StoryCardData[];
@@ -33,11 +34,17 @@ export function StoryGrid({ stories }: StoryGridProps) {
               id={`story-card-image-container-${story.slug}`}
               className="relative w-full h-[280px] md:h-[320px] lg:h-[340px] overflow-hidden"
             >
-              <img
+              <ImageWithFallback
                 id={`story-card-image-${story.slug}`}
                 src={story.coverImage}
                 alt={story.title}
                 className="w-full h-full object-cover"
+                onError={(e) => {
+                  console.error(`Failed to load cover image for "${story.slug}":`, story.coverImage);
+                }}
+                onLoad={() => {
+                  console.log(`Successfully loaded cover image for "${story.slug}":`, story.coverImage);
+                }}
               />
               <div 
                 id={`story-card-gradient-overlay-${story.slug}`}

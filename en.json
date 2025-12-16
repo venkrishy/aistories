@@ -1,0 +1,60 @@
+{
+  "en": {
+    "pages": [
+      {
+        "page": 1,
+        "image": "01.webp",
+        "text": "Once upon a time in a bright, bustling town, there lived a thoughtful boy named Sammy. Sammy loved learning, but his homework felt like a mountain! One day, he felt overwhelmed and lonely.",
+        "chapter": "Sammy's Homework Mountain"
+      },
+      {
+        "page": 2,
+        "image": "02.webp",
+        "text": "That’s when his neighbor, Mia, noticed him. \"Let’s tackle it together!\" she said with a smile.",
+        "chapter": "A Helping Hand"
+      },
+      {
+        "page": 3,
+        "image": "03.webp",
+        "text": "They made a colorful plan on paper, breaking homework into fun, bite-sized pieces. Sammy learned that sharing his tasks made them lighter.",
+        "chapter": "A Colorful Plan"
+      },
+      {
+        "page": 4,
+        "image": "04.webp",
+        "text": "First, they tackled the tricky math problems. Mia explained the steps clearly, and Sammy’s frown turned into a triumphant grin with each correct answer.",
+        "chapter": "Conquering Math"
+      },
+      {
+        "page": 5,
+        "image": "05.webp",
+        "text": "Next was the history project, which needed a lot of research. They split the topics, each finding fascinating facts to share with the other.",
+        "chapter": "Uncovering History"
+      },
+      {
+        "page": 6,
+        "image": "06.webp",
+        "text": "The science experiment was the most fun! They carefully mixed ingredients, watched them bubble, and recorded their observations, feeling like real scientists.",
+        "chapter": "Science Fun"
+      },
+      {
+        "page": 7,
+        "image": "07.webp",
+        "text": "As the afternoon sun began to set, the mountain of homework had shrunk to a small hill. Their colorful plan was almost completely checked off!",
+        "chapter": "The Shrinking Mountain"
+      },
+      {
+        "page": 8,
+        "image": "08.webp",
+        "text": "They high-fived, tired but happy. The giggles from earlier had turned into a quiet sense of accomplishment.",
+        "chapter": "A Job Well Done"
+      },
+      {
+        "page": 9,
+        "image": "09.webp",
+        "text": "Sammy looked at Mia. \"Thank you,\" he said, \"I couldn't have done it without you. Homework isn't so scary with a friend.\"",
+        "chapter": "The Power of Friendship"
+      }
+    ]
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "title": "Sammy's Homework Adventure",
+  "description": "A story about a boy who learns that homework is easier and more fun with a friend.",
+  "tags": [
+    "friendship",
+    "school",
+    "homework",
+    "teamwork",
+    "children's story"
+  ],
+  "series": "",
+  "protagonist": "Sammy, Mia",
+  "antagonist": "Homework",
+  "narrator": {
+    "name": "en-US-Wavenet-G",
+    "voice_type": "warm",
+    "narration_style": "friendly"
+  },
+  "ai-url": "https://gemini.google.com/share/160814d3f9fc"
+}

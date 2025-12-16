@@ -57,5 +57,20 @@
       port: 3000,
       host: true,
       open: false,
+      proxy: {
+        '/api/cdn': {
+          target: 'https://cdn.aistories.online',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api\/cdn/, ''),
+          configure: (proxy, _options) => {
+            proxy.on('proxyRes', (proxyRes, req, res) => {
+              // Add CORS headers to proxied responses
+              proxyRes.headers['access-control-allow-origin'] = '*';
+              proxyRes.headers['access-control-allow-methods'] = 'GET, HEAD, OPTIONS';
+              proxyRes.headers['access-control-allow-headers'] = 'Content-Type';
+            });
+          },
+        },
+      },
     },
   });

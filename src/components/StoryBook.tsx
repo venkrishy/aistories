@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronLeft, ChevronRight, Volume2, Pause, ChevronDown } from 'lucide-react';
+import { ImageWithFallback } from './figma/ImageWithFallback';
 
 interface Story {
   id: number;
@@ -132,15 +133,25 @@ export function StoryBook({
               className="relative overflow-hidden bg-gray-900"
               style={{ transformStyle: 'preserve-3d' }}
             >
-              <motion.img
-                id="listen-image"
-                src={story.image}
-                alt={story.title}
-                className="w-full h-full object-cover"
+              <motion.div
                 initial={{ scale: 1.1 }}
                 animate={{ scale: 1 }}
                 transition={{ duration: 0.8 }}
-              />
+                className="w-full h-full"
+              >
+                <ImageWithFallback
+                  id="listen-image"
+                  src={story.image}
+                  alt={story.title}
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    console.error(`Failed to load story image:`, story.image);
+                  }}
+                  onLoad={() => {
+                    console.log(`Successfully loaded story image:`, story.image);
+                  }}
+                />
+              </motion.div>
               <div id="listen-image-overlay" className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
             </motion.div>
           </AnimatePresence>

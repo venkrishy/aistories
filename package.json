@@ -1,5 +1,5 @@
 {
-    "name": "Visual Storytelling UI",
+    "name": "AI Stories",
     "version": "0.1.0",
     "private": true,
     "type": "module",
@@ -65,6 +65,7 @@
         "test": "playwright test",
         "test:listen": "playwright test tests/listen-feature.spec.ts",
         "test:listen:headed": "playwright test tests/listen-feature.spec.ts --headed",
-        "test:listen:ui": "playwright test tests/listen-feature.spec.ts --ui"
+        "test:listen:ui": "playwright test tests/listen-feature.spec.ts --ui",
+        "extract-story": "npx tsx scripts/extract-story.ts"
     }
 }

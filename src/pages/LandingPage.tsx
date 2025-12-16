@@ -10,10 +10,19 @@ export default function LandingPage() {
   useEffect(() => {
     const loadStories = async () => {
       try {
+        console.log('Loading stories metadata...');
         const storiesData = await getStoriesMetadata();
+        console.log(`Loaded ${storiesData.length} stories:`, storiesData);
         setStories(storiesData);
       } catch (error) {
         console.error('Failed to load stories:', error);
+        // Log more details about the error
+        if (error instanceof Error) {
+          console.error('Error details:', {
+            message: error.message,
+            stack: error.stack,
+          });
+        }
       } finally {
         setIsLoading(false);
       }

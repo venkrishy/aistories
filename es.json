@@ -1,0 +1,60 @@
+{
+  "es": {
+    "pages": [
+      {
+        "page": 1,
+        "image": "01.webp",
+        "text": "Érase una vez, en una ciudad alegre y bulliciosa, un niño reflexivo llamado Sammy. A Sammy le encantaba aprender, ¡pero sus deberes le parecían una montaña! Un día, se sintió abrumado y solo.",
+        "chapter": "La montaña de deberes de Sammy"
+      },
+      {
+        "page": 2,
+        "image": "02.webp",
+        "text": "Fue entonces cuando su vecina, Mia, se fijó en él. «¡Vamos a hacerlo juntos!», le dijo con una sonrisa.",
+        "chapter": "Una mano amiga"
+      },
+      {
+        "page": 3,
+        "image": "03.webp",
+        "text": "Hicieron un plan colorido en un papel, dividiendo los deberes en partes divertidas y más fáciles de digerir. Sammy aprendió que compartir sus tareas las hacía más ligeras.",
+        "chapter": "Un plan colorido"
+      },
+      {
+        "page": 4,
+        "image": "04.webp",
+        "text": "Primero, abordaron los complicados problemas de matemáticas. Mia le explicó los pasos con claridad y, con cada respuesta correcta, el ceño fruncido de Sammy se convertía en una sonrisa triunfante.",
+        "chapter": "Conquistando las matemáticas"
+      },
+      {
+        "page": 5,
+        "image": "05.webp",
+        "text": "Lo siguiente fue el proyecto de historia, que requería mucha investigación. Dividieron los temas y cada uno encontró datos fascinantes para compartir con el otro.",
+        "chapter": "Descubriendo la historia"
+      },
+      {
+        "page": 6,
+        "image": "06.webp",
+        "text": "¡El experimento de ciencias fue lo más divertido! Mezclaron cuidadosamente los ingredientes, observaron cómo burbujeaban y anotaron sus observaciones, sintiéndose como auténticos científicos.",
+        "chapter": "Ciencia divertida"
+      },
+      {
+        "page": 7,
+        "image": "07.webp",
+        "text": "Cuando el sol de la tarde comenzó a ponerse, la montaña de deberes se había reducido a una pequeña colina. ¡Su colorido plan estaba casi completamente completado!",
+        "chapter": "La montaña que se encoge"
+      },
+      {
+        "page": 8,
+        "image": "08.webp",
+        "text": "Chocaron las manos, cansados pero felices. Las risitas de antes se habían convertido en una tranquila sensación de logro.",
+        "chapter": "Un trabajo bien hecho"
+      },
+      {
+        "page": 9,
+        "image": "09.webp",
+        "text": "Sammy miró a Mia. «Gracias», dijo, «no podría haberlo hecho sin ti. Los deberes no dan tanto miedo con un amigo».",
+        "chapter": "El poder de la amistad"
+      }
+    ]
+  }
+}
