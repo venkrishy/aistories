@@ -53,13 +53,11 @@ jobs:
             -H "Content-Type: application/json" \
             --data '{"purge_everything":true}'
 
+      - name: Install git-cliff
+        uses: taiki-e/install-action@git-cliff
+
       - name: Generate Release Notes
-        uses: orhun/git-cliff-action@v3
-        with:
-          config: cliff.toml
-          args: --latest --strip header
-        env:
-          OUTPUT: RELEASE_NOTES.md
+        run: git-cliff --latest --strip header > RELEASE_NOTES.md
 
       - name: Create GitHub Release
         run: |
