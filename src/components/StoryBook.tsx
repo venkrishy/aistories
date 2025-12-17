@@ -1,3 +1,4 @@
+import { React, useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronLeft, ChevronRight, Volume2, Pause, ChevronDown } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
@@ -39,34 +40,16 @@ export function StoryBook({
 
   return (
     <div className="relative w-full max-w-7xl">
-      {/* Top Navigation Bar */}
+      {/* Top Navigation Bar - Positioned over text block */}
       {hasAudio && (
-        <div className="absolute top-0 left-0 right-0 z-50 p-4 bg-gradient-to-b from-black/20 via-black/10 to-transparent pointer-events-none" style={{ zIndex: 100 }}>
-          <div className="flex justify-between items-center pointer-events-auto" style={{ position: 'relative', zIndex: 101 }}>
-            {/* Page Indicator - removed text, only arrows */}
-            <div className="flex items-center gap-2 text-white">
-              <button
-                onClick={onPrevPage}
-                disabled={!canGoPrev}
-                className={`p-1 ${canGoPrev ? 'hover:opacity-80' : 'opacity-40 cursor-not-allowed'}`}
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-              <button
-                onClick={onNextPage}
-                disabled={!canGoNext}
-                className={`p-1 ${canGoNext ? 'hover:opacity-80' : 'opacity-40 cursor-not-allowed'}`}
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            </div>
-
+        <div className="absolute top-0 right-0 md:w-1/2 z-50 p-4 bg-gradient-to-b from-black/20 via-black/10 to-transparent pointer-events-none" style={{ zIndex: 100 }}>
+          <div className="flex justify-end items-center pointer-events-auto" style={{ position: 'relative', zIndex: 101 }}>
             {/* Listen/Pause Button */}
             <button
               id="listen-button"
               onClick={onTogglePlay}
               className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-blue-600 hover:bg-blue-700 text-white transition-all duration-200 shadow-xl border-2 border-blue-500/50 backdrop-blur-sm"
-              style={{ 
+              style={{
                 backgroundColor: '#2563eb',
                 boxShadow: '0 10px 25px -5px rgba(37, 99, 235, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1)'
               }}
@@ -91,46 +74,14 @@ export function StoryBook({
       {/* Book Container */}
       <div id="story-pages" className="relative bg-white rounded-lg shadow-2xl overflow-hidden" style={{ perspective: '2000px', zIndex: 1 }}>
         <div className="grid md:grid-cols-2 min-h-[600px]">
-          {/* Left Page - Text */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              id={`story-page-${currentPage}`}
-              key={`text-${story.id}`}
-              initial={{ rotateY: -90, opacity: 0 }}
-              animate={{ rotateY: 0, opacity: 1 }}
-              exit={{ rotateY: 90, opacity: 0 }}
-              transition={{ duration: 0.6, ease: 'easeInOut' }}
-              className="p-12 flex flex-col justify-center bg-gradient-to-br from-amber-50 to-orange-50 border-r-2 border-amber-200"
-              style={{ transformStyle: 'preserve-3d' }}
-            >
-              <div className="space-y-6">
-                <div className="space-y-2">
-                  <div id={`story-page-chapter-${currentPage}`} className="text-sm text-amber-600 tracking-widest uppercase">
-                    {story.chapter || `Chapter ${currentPage + 1}`}
-                  </div>
-                  <h1 id={`story-page-text-title-${currentPage}`} className="text-4xl text-amber-900">
-                    {story.title}
-                  </h1>
-                </div>
-                <div className="h-1 w-20 bg-gradient-to-r from-amber-400 to-orange-400 rounded-full"></div>
-                <p id={`story-page-text-${currentPage}`} className="text-lg text-gray-700 leading-relaxed">
-                  {story.content}
-                </p>
-                <div id={`story-page-number-${currentPage}`} className="pt-4 text-sm text-amber-600">
-                  Page {currentPage + 1} of {totalPages}
-                </div>
-              </div>
-            </motion.div>
-          </AnimatePresence>
-
-          {/* Right Page - Image */}
+          {/* Left Page - Image */}
           <AnimatePresence mode="wait">
             <motion.div
               id={`story-page-image-block-${currentPage}`}
               key={`image-${story.id}`}
-              initial={{ rotateY: 90, opacity: 0 }}
+              initial={{ rotateY: -90, opacity: 0 }}
               animate={{ rotateY: 0, opacity: 1 }}
-              exit={{ rotateY: -90, opacity: 0 }}
+              exit={{ rotateY: 90, opacity: 0 }}
               transition={{ duration: 0.6, ease: 'easeInOut' }}
               className="relative overflow-hidden bg-gray-900"
               style={{ transformStyle: 'preserve-3d' }}
@@ -157,10 +108,42 @@ export function StoryBook({
               <div id={`story-page-image-overlay-${currentPage}`} className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
             </motion.div>
           </AnimatePresence>
+
+          {/* Right Page - Text */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              id={`story-page-text-block-${currentPage}`}
+              key={`text-${story.id}`}
+              initial={{ rotateY: 90, opacity: 0 }}
+              animate={{ rotateY: 0, opacity: 1 }}
+              exit={{ rotateY: -90, opacity: 0 }}
+              transition={{ duration: 0.6, ease: 'easeInOut' }}
+              className="p-12 flex flex-col justify-center bg-gradient-to-br from-amber-50 to-orange-50 border-l-2 border-amber-200 relative"
+              style={{ transformStyle: 'preserve-3d' }}
+            >
+              <div className="space-y-6">
+                <div className="space-y-2">
+                  <div id={`story-page-chapter-${currentPage}`} className="text-sm text-amber-600 tracking-widest uppercase">
+                    {story.chapter || `Chapter ${currentPage + 1}`}
+                  </div>
+                  <h1 id={`story-page-text-title-${currentPage}`} className="text-4xl text-amber-900">
+                    {story.title}
+                  </h1>
+                </div>
+                <div className="h-1 w-20 bg-gradient-to-r from-amber-400 to-orange-400 rounded-full"></div>
+                <p id={`story-page-text-${currentPage}`} className="text-lg text-gray-700 leading-relaxed">
+                  {story.content}
+                </p>
+                <div id={`story-page-number-${currentPage}`} className="pt-4 text-sm text-amber-600">
+                  Page {currentPage + 1} of {totalPages}
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
         </div>
 
-        {/* Navigation Controls */}
-        <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/20 to-transparent pointer-events-none">
+        {/* Navigation Controls - Positioned over text block */}
+        <div className="absolute bottom-0 right-0 md:w-1/2 p-6 bg-gradient-to-t from-black/20 to-transparent pointer-events-none">
           <div className="flex justify-between items-center pointer-events-auto">
             <button
               onClick={onPrevPage}

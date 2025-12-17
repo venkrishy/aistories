@@ -1,0 +1,43 @@
+Is the story-page-0 element referring to the section that contains story-text?  In that case, rename it to
+story-page-text-block.  Next, please switch the story-page-text-block with story-page-image element, with image showing
+up on the left first, and text appearing on the right next.  The floating next and previous buttons will now show up on
+the text-block instead of the image block.  Similarly, the Listen button will appear on the Text block.  Don't update
+any test files, until I have finished my manual testing. @src/components/StoryBook.tsx @src/components/StoryGrid.tsx
+@src/pages/StoryReaderPage.tsx 
+
+Changes Made to StoryBook.tsx, StoryGrid.tsx, LandingPage.tsx and StoryReaderPage.tsx
+
+Changes Made to StoryBook.tsx
+
+  1. Renamed Text Block ID
+
+  - Changed story-page-${currentPage} → story-page-text-block-${currentPage}
+  - Now clearly identifies the text content section
+
+  2. Swapped Layout
+
+  - Left side (was text): Now displays IMAGE (story-page-image-block-${currentPage})
+  - Right side (was image): Now displays TEXT (story-page-text-block-${currentPage})
+  - Updated border styling from border-r-2 to border-l-2 on text block
+
+  3. Repositioned Listen Button
+
+  - Moved from top-left spanning full width → top-right over text block
+  - Uses md:w-1/2 to position only on the text half on medium screens
+  - Aligned right with justify-end
+
+  4. Repositioned Navigation Buttons
+
+  - Moved from bottom spanning full width → bottom-right over text block
+  - Uses md:w-1/2 to position only on the text half on medium screens
+  - Previous and Next buttons now appear on the text block
+
+  5. Updated Animation Directions
+
+  - Image initial rotation: -90 (slides in from left)
+  - Text initial rotation: +90 (slides in from right)
+  - Ensures smooth 3D book-flip effect with new layout
+
+  The layout now follows a image-left, text-right format with all interactive controls (Listen button and navigation) positioned over the text block. Ready for your manual testing!
+
+  

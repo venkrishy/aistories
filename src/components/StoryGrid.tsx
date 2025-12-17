@@ -1,3 +1,4 @@
+import { React } from 'react';
 import { Link } from '@tanstack/react-router';
 import type { StoryCardData } from '../services/storyLoader';
 import { ImageWithFallback } from './figma/ImageWithFallback';

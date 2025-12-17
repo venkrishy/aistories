@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { React, useState, useEffect } from 'react';
 import { Hero } from '../components/Hero';
 import { StoryGrid } from '../components/StoryGrid';
 import { getStoriesMetadata, type StoryCardData } from '../services/storyLoader';
