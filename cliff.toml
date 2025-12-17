@@ -7,18 +7,10 @@ header = ""
 # template for the changelog body
 # https://keats.github.io/tera/docs/#introduction
 body = """
-{% if version %}\
-    ## [{{ version }}] - {{ timestamp | date(format="%Y-%m-%d") }}
-{% else %}\
-    ## [Unreleased]
-{% endif %}\
-{% if previous.commit_id %}
-    <a href="https://github.com/{{ github.owner }}/{{ github.repo }}/compare/{{ previous.commit_id }}...{{ commit_id }}">**Full Changelog**</a>
-{% endif %}\
 {% for group, commits in commits | group_by(attribute="group") %}
     ### {{ group | title }}
     {% for commit in commits %}
-        - {% if commit.breaking %}**BREAKING** {% endif %}{{ commit.message | upper_first }} ([`{{ commit.id | truncate(length=7, end="") }}`](https://github.com/{{ github.owner }}/{{ github.repo }}/commit/{{ commit.id }}))
+        - {% if commit.breaking %}**BREAKING** {% endif %}{{ commit.message | upper_first }} ({{ commit.id | truncate(length=7, end="") }})
     {%- endfor %}
 {% endfor %}
 """
