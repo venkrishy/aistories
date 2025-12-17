@@ -35,9 +35,6 @@ export function ImageWithFallback(props: React.ImgHTMLAttributes<HTMLImageElemen
       style={style} 
       {...rest} 
       onError={handleError}
-      onLoad={() => {
-        console.log(`Successfully loaded image:`, src)
-      }}
     />
   )
 }

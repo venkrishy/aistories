@@ -75,7 +75,6 @@ async function loadStorySlugs(): Promise<string[]> {
     if (response.ok) {
       const slugs = await response.json();
       if (Array.isArray(slugs)) {
-        console.log(`Loaded ${slugs.length} story slugs from stories.json:`, slugs);
         return slugs;
       } else {
         console.error('stories.json is not an array:', slugs);
@@ -98,13 +97,7 @@ async function verifyStoryAvailability(slug: string): Promise<boolean> {
       mode: 'cors',
       cache: 'no-store', // Force fresh fetch, bypass cache
     });
-    const isAvailable = response.ok;
-    if (!isAvailable) {
-      console.warn(`Story "${slug}" not available at ${url}: ${response.status} ${response.statusText}`);
-    } else {
-      console.log(`✓ Story "${slug}" is available on CDN`);
-    }
-    return isAvailable;
+    return response.ok;
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     console.error(`✗ Failed to verify story "${slug}" at ${url}:`, errorMessage);
@@ -125,7 +118,6 @@ async function loadStoryMeta(slug: string): Promise<StoryMeta | null> {
     });
     if (response.ok) {
       const data = await response.json();
-      console.log(`✓ Loaded meta.json for "${slug}"`);
       return data;
     } else {
       console.error(`Failed to load meta.json for "${slug}": ${response.status} ${response.statusText}`);
@@ -149,7 +141,6 @@ async function loadStoryLanguageData(slug: string): Promise<StoryLanguageData | 
       const text = await response.text();
       try {
         const data = JSON.parse(text);
-        console.log(`✓ Loaded en.json for "${slug}"`);
         return data;
       } catch (parseError) {
         const parseErrorMessage = parseError instanceof Error ? parseError.message : String(parseError);
@@ -188,13 +179,10 @@ async function loadStoryLanguageData(slug: string): Promise<StoryLanguageData | 
 function constructImageUrl(slug: string, imagePath: string): string {
   // If already a full URL, return as-is
   if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
-    console.log(`Image path is already a full URL for "${slug}":`, imagePath);
     return imagePath;
   }
   // Construct full CDN URL (always use direct CDN, not proxy)
-  const fullUrl = `${CDN_IMAGE_BASE_URL}/${slug}/${imagePath}`;
-  console.log(`Constructed image URL for "${slug}": ${imagePath} -> ${fullUrl}`);
-  return fullUrl;
+  return `${CDN_IMAGE_BASE_URL}/${slug}/${imagePath}`;
 }
 
 // Construct full CDN URL for audio if needed
@@ -258,8 +246,6 @@ export async function loadStories(): Promise<StoryData[]> {
     return stories;
   }
 
-  console.log(`Verifying availability for ${slugs.length} stories on CDN...`);
-
   // Verify availability and load stories
   const verificationPromises = slugs.map(async (slug) => {
     const isAvailable = await verifyStoryAvailability(slug);
@@ -273,8 +259,6 @@ export async function loadStories(): Promise<StoryData[]> {
   const availableSlugs = (await Promise.all(verificationPromises)).filter(
     (slug): slug is string => slug !== null
   );
-
-  console.log(`${availableSlugs.length} of ${slugs.length} stories are available on CDN`);
 
   // Load metadata for available stories
   for (let i = 0; i < availableSlugs.length; i++) {
@@ -336,8 +320,6 @@ export async function getStoriesMetadata(): Promise<StoryCardData[]> {
     return storiesMetadata;
   }
 
-  console.log(`Getting metadata for ${slugs.length} stories from CDN...`);
-
   // Verify availability and load metadata
   const verificationPromises = slugs.map(async (slug) => {
     const isAvailable = await verifyStoryAvailability(slug);
@@ -351,8 +333,6 @@ export async function getStoriesMetadata(): Promise<StoryCardData[]> {
   const availableSlugs = (await Promise.all(verificationPromises)).filter(
     (slug): slug is string => slug !== null
   );
-
-  console.log(`${availableSlugs.length} of ${slugs.length} stories are available on CDN`);
 
   for (const slug of availableSlugs) {
     const metadata = await loadStoryMetadata(slug);

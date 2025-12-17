@@ -42,9 +42,6 @@ export function StoryGrid({ stories }: StoryGridProps) {
                 onError={(e) => {
                   console.error(`Failed to load cover image for "${story.slug}":`, story.coverImage);
                 }}
-                onLoad={() => {
-                  console.log(`Successfully loaded cover image for "${story.slug}":`, story.coverImage);
-                }}
               />
               <div 
                 id={`story-card-gradient-overlay-${story.slug}`}

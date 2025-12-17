@@ -91,7 +91,9 @@
       "Bash(git check-ignore:*)",
       "Bash(node scripts/story-extractor.js:*)",
       "mcp__serena__find_file",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "mcp__serena__check_onboarding_performed",
+      "mcp__serena__list_dir"
     ]
   }
 }
