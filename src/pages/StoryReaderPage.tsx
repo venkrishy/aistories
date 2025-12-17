@@ -207,6 +207,7 @@ export default function StoryReaderPage() {
       {/* Hidden audio element */}
       {story?.audioUrl && (
         <audio
+          id="story-audio"
           ref={audioRef}
           src={story.audioUrl}
           onTimeUpdate={handleTimeUpdate}

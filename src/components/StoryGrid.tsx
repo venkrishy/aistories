@@ -23,8 +23,9 @@ export function StoryGrid({ stories }: StoryGridProps) {
           className="group block"
           aria-label={`Read story: ${story.title}`}
         >
-          <div 
-            id={`story-card-container-${story.slug}`}
+          <div
+            id={`story-card-${story.slug}`}
+            data-story-slug={story.slug}
             className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl"
             role="article"
             aria-labelledby={`story-card-title-${story.slug}`}
@@ -35,7 +36,7 @@ export function StoryGrid({ stories }: StoryGridProps) {
               className="relative w-full h-[280px] md:h-[320px] lg:h-[340px] overflow-hidden"
             >
               <ImageWithFallback
-                id={`story-card-image-${story.slug}`}
+                id={`story-card-cover-image-${story.slug}`}
                 src={story.coverImage}
                 alt={story.title}
                 className="w-full h-full object-cover"

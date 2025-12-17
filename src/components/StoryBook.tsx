@@ -89,11 +89,12 @@ export function StoryBook({
       )}
 
       {/* Book Container */}
-      <div className="relative bg-white rounded-lg shadow-2xl overflow-hidden" style={{ perspective: '2000px', zIndex: 1 }}>
+      <div id="story-pages" className="relative bg-white rounded-lg shadow-2xl overflow-hidden" style={{ perspective: '2000px', zIndex: 1 }}>
         <div className="grid md:grid-cols-2 min-h-[600px]">
           {/* Left Page - Text */}
           <AnimatePresence mode="wait">
             <motion.div
+              id={`story-page-${currentPage}`}
               key={`text-${story.id}`}
               initial={{ rotateY: -90, opacity: 0 }}
               animate={{ rotateY: 0, opacity: 1 }}
@@ -104,18 +105,18 @@ export function StoryBook({
             >
               <div className="space-y-6">
                 <div className="space-y-2">
-                  <div className="text-sm text-amber-600 tracking-widest uppercase">
+                  <div id={`story-page-chapter-${currentPage}`} className="text-sm text-amber-600 tracking-widest uppercase">
                     {story.chapter || `Chapter ${currentPage + 1}`}
                   </div>
-                  <h1 className="text-4xl text-amber-900">
+                  <h1 id={`story-page-text-title-${currentPage}`} className="text-4xl text-amber-900">
                     {story.title}
                   </h1>
                 </div>
                 <div className="h-1 w-20 bg-gradient-to-r from-amber-400 to-orange-400 rounded-full"></div>
-                <p className="text-lg text-gray-700 leading-relaxed">
+                <p id={`story-page-text-${currentPage}`} className="text-lg text-gray-700 leading-relaxed">
                   {story.content}
                 </p>
-                <div className="pt-4 text-sm text-amber-600">
+                <div id={`story-page-number-${currentPage}`} className="pt-4 text-sm text-amber-600">
                   Page {currentPage + 1} of {totalPages}
                 </div>
               </div>
@@ -125,6 +126,7 @@ export function StoryBook({
           {/* Right Page - Image */}
           <AnimatePresence mode="wait">
             <motion.div
+              id={`story-page-image-block-${currentPage}`}
               key={`image-${story.id}`}
               initial={{ rotateY: 90, opacity: 0 }}
               animate={{ rotateY: 0, opacity: 1 }}
@@ -140,7 +142,7 @@ export function StoryBook({
                 className="w-full h-full"
               >
                 <ImageWithFallback
-                  id="listen-image"
+                  id={`story-page-image-${currentPage}`}
                   src={story.image}
                   alt={story.title}
                   className="w-full h-full object-cover"
@@ -152,7 +154,7 @@ export function StoryBook({
                   }}
                 />
               </motion.div>
-              <div id="listen-image-overlay" className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+              <div id={`story-page-image-overlay-${currentPage}`} className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
             </motion.div>
           </AnimatePresence>
         </div>
