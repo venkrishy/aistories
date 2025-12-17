@@ -1,0 +1,17 @@
+In github, every time I push to remote, generate release notes.
+1. Release frequency (every push to main). 
+2. Release notes format: Conventional Commits. 
+3.  Release notes added to existing GitHub Releases.  No images/audio changes, just features and 
+fixes 
+
+# Claude Response
+  1. Generate Release Notes - Uses git-cliff to create markdown with only features and fixes
+  2. Create GitHub Release - Uses GitHub CLI (gh) with a timestamp-based tag like 2025.12.17.143022
+
+  Key changes:
+  - Removed the problematic anothrNick/github-tag-version action
+  - Uses gh release create which is built-in to GitHub Actions (no external dependency)
+  - Tags are timestamped (YYYY.MM.DD.HHMMSS) so each deployment gets a unique release
+  - Release notes show only feat and fix commits as configured in cliff.toml
+
+  This is more reliable and will work on your next push to main!

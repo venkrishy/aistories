@@ -53,29 +53,20 @@ jobs:
             -H "Content-Type: application/json" \
             --data '{"purge_everything":true}'
 
-      - name: Bump Version and Create Tag
-        id: version
-        uses: anothrNick/github-tag-version@1.70.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          WITH_V: true
-          RELEASE_BRANCHES: main
-          DEFAULT_BUMP: patch
-
       - name: Generate Release Notes
-        id: changelog
         uses: orhun/git-cliff-action@v3
         with:
           config: cliff.toml
-          args: --latest --strip header --output RELEASE_NOTES.md
+          args: --latest --strip header
         env:
           OUTPUT: RELEASE_NOTES.md
 
       - name: Create GitHub Release
-        uses: ncipollo/release-action@v1
-        if: ${{ steps.version.outputs.new_tag }}
-        with:
-          tag: ${{ steps.version.outputs.new_tag }}
-          name: ${{ steps.version.outputs.new_tag }}
-          bodyFile: RELEASE_NOTES.md
-          token: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="$(date +%Y.%m.%d.%H%M%S)"
+          gh release create "$TAG" \
+            --title "Release $TAG" \
+            --notes-file RELEASE_NOTES.md \
+            --target main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
