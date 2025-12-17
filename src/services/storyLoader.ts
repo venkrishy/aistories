@@ -25,6 +25,11 @@ export interface StoryMeta {
 // Interface for en.json structure
 interface StoryLanguageData {
   en: {
+    title?: string;
+    description?: string;
+    coverImage?: string;
+    audioUrl?: string;
+    'ai-url'?: string;
     pages: Array<{
       page: number;
       image: string;
@@ -213,8 +218,8 @@ async function loadStoryMetadata(slug: string, config: CDNConfig): Promise<Story
     // Always use cover.webp for landing cards (author wants a fixed cover filename)
     const coverImage = constructImageUrl(slug, 'cover.webp', config);
 
-    // Construct audioUrl if present
-    const audioUrl = constructAudioUrl(slug, meta.audioUrl, config);
+    // Construct audioUrl - check language data first, then meta
+    const audioUrl = constructAudioUrl(slug, languageData.en.audioUrl || meta.audioUrl, config);
 
     return {
       title: meta.title,
