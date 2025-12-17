@@ -65,7 +65,6 @@
       "Bash(then curl -s -X POST \"https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE_ID/purge_cache\" -H \"Authorization: Bearer $CLOUDFLARE_API_TOKEN\" -H \"Content-Type: application/json\" --data '{\"\"purge_everything\"\":true}')",
       "Bash(else echo \"CLOUDFLARE_ZONE_ID not set\")",
       "Bash(fi)",
-      "Bash(/bin/bash -c 'ZONE_ID=$(grep CLOUDFLARE_ZONE_ID /Users/venky/git/aistories/.env.local | cut -d= -f2); API_TOKEN=$(grep CLOUDFLARE_API_TOKEN /Users/venky/git/aistories/.env.local | cut -d= -f2); curl -s -X POST \"\"https://api.cloudflare.com/client/v4/zones/$ZONE_ID/purge_cache\"\" -H \"\"Authorization: Bearer $API_TOKEN\"\" -H \"\"Content-Type: application/json\"\" --data \"\"{\\\"\"purge_everything\\\"\":true}\"\"')",
       "Bash(/bin/bash -c 'ZONE_ID=$(grep CLOUDFLARE_ZONE_ID /Users/venky/git/aistories/.env.local | cut -d= -f2); API_TOKEN=$(grep CLOUDFLARE_PAGES_API_TOKEN /Users/venky/git/aistories/.env.local | cut -d= -f2); curl -s -X POST \"\"https://api.cloudflare.com/client/v4/zones/$ZONE_ID/purge_cache\"\" -H \"\"Authorization: Bearer $API_TOKEN\"\" -H \"\"Content-Type: application/json\"\" --data \"\"{\\\"\"purge_everything\\\"\":true}\"\"')",
       "Bash(xxd:*)",
       "WebFetch(domain:whoop-floor-94879954.figma.site)",
@@ -93,7 +92,16 @@
       "mcp__serena__find_file",
       "Bash(git push:*)",
       "mcp__serena__check_onboarding_performed",
-      "mcp__serena__list_dir"
+      "mcp__serena__list_dir",
+      "mcp__serena__search_for_pattern",
+      "mcp__serena__get_symbols_overview",
+      "mcp__serena__find_referencing_symbols",
+      "Bash(pkill:*)",
+      "Bash(ln:*)",
+      "mcp__serena__find_symbol",
+      "Bash(while read dir)",
+      "Bash(do ln -s ~/cloudflarebuckets/aistories/\"$dir\" \"$dir\")",
+      "Bash(do ln -s ~/cloudflarebuckets/aistories/\"$dir\" .)"
     ]
   }
 }

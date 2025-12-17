@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Hero } from '../components/Hero';
 import { StoryGrid } from '../components/StoryGrid';
 import { getStoriesMetadata, type StoryCardData } from '../services/storyLoader';
+import { createCDNConfig } from '../services/cdnConfig';
 
 export default function LandingPage() {
   const [stories, setStories] = useState<StoryCardData[]>([]);
@@ -10,7 +11,8 @@ export default function LandingPage() {
   useEffect(() => {
     const loadStories = async () => {
       try {
-        const storiesData = await getStoriesMetadata();
+        const config = createCDNConfig();
+        const storiesData = await getStoriesMetadata(config);
         setStories(storiesData);
       } catch (error) {
         console.error('Failed to load stories:', error);

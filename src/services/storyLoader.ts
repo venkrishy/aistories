@@ -1,15 +1,8 @@
 import { StoryPage } from '../types/story';
+import type { CDNConfig } from './cdnConfig';
 
-// Use proxy in development to avoid CORS issues, direct CDN URL in production
-// Check if we're in development by checking the hostname
-const isDevelopment = typeof window !== 'undefined' && 
-  (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
-const CDN_BASE_URL = isDevelopment
-  ? '/api/cdn'
-  : 'https://cdn.aistories.online';
-
-// Always use full CDN URL for images (not proxy) since img tags don't use fetch
-const CDN_IMAGE_BASE_URL = 'https://cdn.aistories.online';
+const IMAGES_FOLDER = 'images';
+const AUDIO_FOLDER = 'audio';
 
 // Interface for meta.json structure
 export interface StoryMeta {
@@ -89,8 +82,8 @@ async function loadStorySlugs(): Promise<string[]> {
 }
 
 // Verify CDN availability by checking if meta.json exists
-async function verifyStoryAvailability(slug: string): Promise<boolean> {
-  const url = `${CDN_BASE_URL}/${slug}/meta.json`;
+async function verifyStoryAvailability(slug: string, config: CDNConfig): Promise<boolean> {
+  const url = `${config.baseUrl}/${slug}/meta.json`;
   try {
     const response = await fetch(url, {
       method: 'GET',
@@ -100,7 +93,7 @@ async function verifyStoryAvailability(slug: string): Promise<boolean> {
     return response.ok;
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
-    console.error(`✗ Failed to verify story "${slug}" at ${url}:`, errorMessage);
+    console.error(`Failed to verify story "${slug}" at ${url}:`, errorMessage);
     if (errorMessage.includes('CORS') || errorMessage.includes('Failed to fetch')) {
       console.error('  This might be a CORS issue. Check if the CDN allows cross-origin requests.');
     }
@@ -109,10 +102,10 @@ async function verifyStoryAvailability(slug: string): Promise<boolean> {
 }
 
 // Load meta.json from CDN
-async function loadStoryMeta(slug: string): Promise<StoryMeta | null> {
-  const url = `${CDN_BASE_URL}/${slug}/meta.json`;
+async function loadStoryMeta(slug: string, config: CDNConfig): Promise<StoryMeta | null> {
+  const url = `${config.baseUrl}/${slug}/meta.json`;
   try {
-    const response = await fetch(url, { 
+    const response = await fetch(url, {
       mode: 'cors',
       cache: 'no-store', // Force fresh fetch, bypass cache
     });
@@ -130,10 +123,10 @@ async function loadStoryMeta(slug: string): Promise<StoryMeta | null> {
 }
 
 // Load en.json from CDN
-async function loadStoryLanguageData(slug: string): Promise<StoryLanguageData | null> {
-  const url = `${CDN_BASE_URL}/${slug}/en.json`;
+async function loadStoryLanguageData(slug: string, config: CDNConfig): Promise<StoryLanguageData | null> {
+  const url = `${config.baseUrl}/${slug}/en.json`;
   try {
-    const response = await fetch(url, { 
+    const response = await fetch(url, {
       mode: 'cors',
       cache: 'no-store', // Force fresh fetch, bypass cache
     });
@@ -175,34 +168,33 @@ async function loadStoryLanguageData(slug: string): Promise<StoryLanguageData | 
 }
 
 // Construct full CDN URL for image
-// Always use full CDN URL (not proxy) since images are loaded via <img> tags, not fetch
-function constructImageUrl(slug: string, imagePath: string): string {
+function constructImageUrl(slug: string, imagePath: string, config: CDNConfig): string {
   // If already a full URL, return as-is
   if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
     return imagePath;
   }
-  // Construct full CDN URL (always use direct CDN, not proxy)
-  return `${CDN_IMAGE_BASE_URL}/${slug}/${imagePath}`;
+  // Construct full CDN URL using imageBaseUrl
+  return `${config.imageBaseUrl}/${slug}/${IMAGES_FOLDER}/${imagePath}`;
 }
 
 // Construct full CDN URL for audio if needed
-function constructAudioUrl(slug: string, audioPath: string | undefined): string | undefined {
+function constructAudioUrl(slug: string, audioPath: string | undefined, config: CDNConfig): string | undefined {
   if (!audioPath) return undefined;
   // If already a full URL, return as-is
   if (audioPath.startsWith('http://') || audioPath.startsWith('https://')) {
     return audioPath;
   }
   // Construct full CDN URL
-  return `${CDN_BASE_URL}/${slug}/${audioPath}`;
+  return `${config.baseUrl}/${slug}/${AUDIO_FOLDER}/${audioPath}`;
 }
 
 // Load and combine meta.json and en.json
-async function loadStoryMetadata(slug: string): Promise<StoryMetadata | null> {
+async function loadStoryMetadata(slug: string, config: CDNConfig): Promise<StoryMetadata | null> {
   try {
     // Load meta.json and en.json in parallel
     const [meta, languageData] = await Promise.all([
-      loadStoryMeta(slug),
-      loadStoryLanguageData(slug),
+      loadStoryMeta(slug, config),
+      loadStoryLanguageData(slug, config),
     ]);
 
     if (!meta || !languageData || !languageData.en) {
@@ -212,17 +204,17 @@ async function loadStoryMetadata(slug: string): Promise<StoryMetadata | null> {
     // Extract pages from en.json and construct full image URLs
     const pages: StoryPage[] = languageData.en.pages.map((page) => ({
       page: page.page,
-      image: constructImageUrl(slug, page.image),
+      image: constructImageUrl(slug, page.image, config),
       text: page.text,
       chapter: page.chapter,
       timestamp: page.timestamp,
     }));
 
     // Always use cover.webp for landing cards (author wants a fixed cover filename)
-    const coverImage = constructImageUrl(slug, 'cover.webp');
+    const coverImage = constructImageUrl(slug, 'cover.webp', config);
 
     // Construct audioUrl if present
-    const audioUrl = constructAudioUrl(slug, meta.audioUrl);
+    const audioUrl = constructAudioUrl(slug, meta.audioUrl, config);
 
     return {
       title: meta.title,
@@ -237,7 +229,7 @@ async function loadStoryMetadata(slug: string): Promise<StoryMetadata | null> {
   }
 }
 
-export async function loadStories(): Promise<StoryData[]> {
+export async function loadStories(config: CDNConfig): Promise<StoryData[]> {
   const stories: StoryData[] = [];
   const slugs = await loadStorySlugs();
 
@@ -248,7 +240,7 @@ export async function loadStories(): Promise<StoryData[]> {
 
   // Verify availability and load stories
   const verificationPromises = slugs.map(async (slug) => {
-    const isAvailable = await verifyStoryAvailability(slug);
+    const isAvailable = await verifyStoryAvailability(slug, config);
     if (isAvailable) {
       return slug;
     }
@@ -263,7 +255,7 @@ export async function loadStories(): Promise<StoryData[]> {
   // Load metadata for available stories
   for (let i = 0; i < availableSlugs.length; i++) {
     const slug = availableSlugs[i];
-    const metadata = await loadStoryMetadata(slug);
+    const metadata = await loadStoryMetadata(slug, config);
 
     if (metadata) {
       stories.push({
@@ -282,15 +274,15 @@ export async function loadStories(): Promise<StoryData[]> {
   return stories;
 }
 
-export async function loadStory(slug: string): Promise<StoryData | null> {
+export async function loadStory(slug: string, config: CDNConfig): Promise<StoryData | null> {
   // Verify availability first
-  const isAvailable = await verifyStoryAvailability(slug);
+  const isAvailable = await verifyStoryAvailability(slug, config);
   if (!isAvailable) {
     console.warn(`Story "${slug}" is not available on CDN`);
     return null;
   }
 
-  const metadata = await loadStoryMetadata(slug);
+  const metadata = await loadStoryMetadata(slug, config);
   if (!metadata) {
     return null;
   }
@@ -311,7 +303,7 @@ export async function loadStory(slug: string): Promise<StoryData | null> {
   };
 }
 
-export async function getStoriesMetadata(): Promise<StoryCardData[]> {
+export async function getStoriesMetadata(config: CDNConfig): Promise<StoryCardData[]> {
   const storiesMetadata: StoryCardData[] = [];
   const slugs = await loadStorySlugs();
 
@@ -322,7 +314,7 @@ export async function getStoriesMetadata(): Promise<StoryCardData[]> {
 
   // Verify availability and load metadata
   const verificationPromises = slugs.map(async (slug) => {
-    const isAvailable = await verifyStoryAvailability(slug);
+    const isAvailable = await verifyStoryAvailability(slug, config);
     if (isAvailable) {
       return slug;
     }
@@ -335,7 +327,7 @@ export async function getStoriesMetadata(): Promise<StoryCardData[]> {
   );
 
   for (const slug of availableSlugs) {
-    const metadata = await loadStoryMetadata(slug);
+    const metadata = await loadStoryMetadata(slug, config);
 
     if (metadata) {
       // Use cover image from metadata, or fallback to first page image

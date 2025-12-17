@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from '@tanstack/react-router';
 import { StoryBook } from '../components/StoryBook';
 import { loadStory } from '../services/storyLoader';
+import { createCDNConfig } from '../services/cdnConfig';
 import { StoryWithPages } from '../types/story';
 
 interface BookPage {
@@ -32,7 +33,8 @@ export default function StoryReaderPage() {
       }
 
       try {
-        const loadedStory = await loadStory(slug);
+        const config = createCDNConfig();
+        const loadedStory = await loadStory(slug, config);
         if (loadedStory) {
           setStory(loadedStory);
           setCurrentPage(0);
