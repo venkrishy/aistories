@@ -10,12 +10,14 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       deployments: write
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
@@ -51,4 +53,29 @@ jobs:
             -H "Content-Type: application/json" \
             --data '{"purge_everything":true}'
 
-            
+      - name: Bump Version and Create Tag
+        id: version
+        uses: anothrNick/github-tag-version@1.70.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true
+          RELEASE_BRANCHES: main
+          DEFAULT_BUMP: patch
+
+      - name: Generate Release Notes
+        id: changelog
+        uses: orhun/git-cliff-action@v3
+        with:
+          config: cliff.toml
+          args: --latest --strip header --output RELEASE_NOTES.md
+        env:
+          OUTPUT: RELEASE_NOTES.md
+
+      - name: Create GitHub Release
+        uses: ncipollo/release-action@v1
+        if: ${{ steps.version.outputs.new_tag }}
+        with:
+          tag: ${{ steps.version.outputs.new_tag }}
+          name: ${{ steps.version.outputs.new_tag }}
+          bodyFile: RELEASE_NOTES.md
+          token: ${{ secrets.GITHUB_TOKEN }}
